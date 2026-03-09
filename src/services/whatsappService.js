@@ -21,8 +21,8 @@ export const whatsappService = {
   },
 
   // Record a WhatsApp contact after successful payment
-  async recordContact(buyerId, sellerId, listingId, paymentDetails) {
-    if (!paymentDetails?.reference || !paymentDetails?.amount) {
+  async recordContact(buyerId, sellerId, listingId, paymentReference, amount) {
+    if (!paymentReference || !amount) {
       throw new Error('Payment details are required');
     }
 
@@ -31,8 +31,8 @@ export const whatsappService = {
       seller_id: sellerId,
       listing_id: listingId,
       contact_type: 'paid',
-      amount_paid: paymentDetails.amount, // in Naira
-      payment_reference: paymentDetails.reference,
+      amount_paid: amount, // in Naira
+      payment_reference: paymentReference,
     };
 
     const { data, error } = await supabase
@@ -50,25 +50,25 @@ export const whatsappService = {
   },
 
   // Get unique dealers who have contacted the seller about this listing
-async getPotentialBuyers(listingId, sellerId) {
-  const { data, error } = await supabase
-    .from('whatsapp_contacts')
-    .select('buyer_id, buyer:dealers!buyer_id(id, business_name, phone)')
-    .eq('listing_id', listingId)
-    .eq('seller_id', sellerId)
-    .order('created_at', { ascending: false });
+  async getPotentialBuyers(listingId, sellerId) {
+    const { data, error } = await supabase
+      .from('whatsapp_contacts')
+      .select('buyer_id, buyer:dealers!buyer_id(id, business_name, phone)')
+      .eq('listing_id', listingId)
+      .eq('seller_id', sellerId)
+      .order('created_at', { ascending: false });
 
-  if (error) throw error;
+    if (error) throw error;
 
-  // Deduplicate by buyer_id
-  const uniqueMap = new Map();
-  data.forEach(item => {
-    if (!uniqueMap.has(item.buyer_id)) {
-      uniqueMap.set(item.buyer_id, item.buyer);
-    }
-  });
-  return Array.from(uniqueMap.values());
-},
+    // Deduplicate by buyer_id
+    const uniqueMap = new Map();
+    data.forEach(item => {
+      if (!uniqueMap.has(item.buyer_id)) {
+        uniqueMap.set(item.buyer_id, item.buyer);
+      }
+    });
+    return Array.from(uniqueMap.values());
+  },
 
   // Get contact history for a dealer (as buyer or seller)
   async getContactHistory(dealerId) {

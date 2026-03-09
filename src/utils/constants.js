@@ -18,7 +18,7 @@ export const PLAN_DETAILS = {
   },
   [SUBSCRIPTION_PLANS.PRO]: {
     name: 'Pro',
-    price: 10000,
+    price: 5000,
     maxListings: 15,
     features: [
       'Advanced search filters',
@@ -31,7 +31,7 @@ export const PLAN_DETAILS = {
   },
   [SUBSCRIPTION_PLANS.ENTERPRISE]: {
     name: 'Enterprise',
-    price: 25000,
+    price: 12000,
     maxListings: Infinity, // unlimited
     features: [
       'All Pro features',
@@ -48,8 +48,8 @@ export const PLAN_DETAILS = {
 
 // Paystack plan codes (create these in your Paystack dashboard)
 export const PAYSTACK_PLANS = {
-  PRO: 'PLN_xxxxxx',      // replace with your actual plan code
-  ENTERPRISE: 'PLN_yyyyyy',
+  PRO: 'PLN_0os11je09ay86nf',      // replace with your actual plan code
+  ENTERPRISE: 'PLN_ghaudvjce6r3gc1',
 };
 
 // WhatsApp contact fee (pay-per-contact)
