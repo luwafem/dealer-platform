@@ -48,7 +48,7 @@ export const PLAN_DETAILS = {
 
 // Paystack plan codes (create these in your Paystack dashboard)
 export const PAYSTACK_PLANS = {
-  PRO: 'PLN_3hz4w006cflo26x',      // replace with your actual plan code
+  PRO: 'PLN_54u133li02zf9s0',      // replace with your actual plan code
   ENTERPRISE: 'PLN_3hz4w006cflo26x',
 };
 
