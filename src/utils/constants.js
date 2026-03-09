@@ -48,8 +48,8 @@ export const PLAN_DETAILS = {
 
 // Paystack plan codes (create these in your Paystack dashboard)
 export const PAYSTACK_PLANS = {
-  PRO: 'PLN_0os11je09ay86nf',      // replace with your actual plan code
-  ENTERPRISE: 'PLN_ghaudvjce6r3gc1',
+  PRO: 'PLN_3hz4w006cflo26x',      // replace with your actual plan code
+  ENTERPRISE: 'PLN_3hz4w006cflo26x',
 };
 
 // WhatsApp contact fee (pay-per-contact)
