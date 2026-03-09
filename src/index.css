@@ -1,13 +1,14 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Custom styles for react-select (optional) */
+.react-select-container .react-select__control {
+  @apply border-gray-300 rounded-md shadow-sm;
+}
+.react-select-container .react-select__control:hover {
+  @apply border-gray-400;
+}
+.react-select-container .react-select__control--is-focused {
+  @apply border-blue-500 ring-1 ring-blue-500;
 }
