@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
-import { MapPin, Eye, Camera, ChevronRight, ArrowLeftRight } from 'lucide-react';
+import { MapPin, Eye, Camera, ChevronRight, ArrowLeftRight, AlertTriangle } from 'lucide-react';
 import { formatNaira, timeAgo } from '../../utils/formatters';
 import { useCompare } from '../../context/CompareContext';
 
 const ListingCard = ({ listing }) => {
-  const { user, dealer } = useAuth(); // 👈 get current dealer
+  const { user, dealer } = useAuth();
   const {
     id,
     dealer_id,
@@ -20,11 +20,12 @@ const ListingCard = ({ listing }) => {
     views,
     created_at,
     status,
+    is_distress,  // 👈 add this field
   } = listing;
 
   const { addToList, removeFromList, isSelected } = useCompare();
   const selected = isSelected(id);
-  const isOwner = dealer && dealer_id === dealer.id; // 👈 check ownership
+  const isOwner = dealer && dealer_id === dealer.id;
 
   const mainPhoto = photos && photos.length > 0 ? photos[0] : null;
 
@@ -51,6 +52,15 @@ const ListingCard = ({ listing }) => {
           ) : (
             <div className="w-full h-48 flex items-center justify-center bg-gray-100">
               <Camera className="w-12 h-12 text-gray-400" />
+            </div>
+          )}
+          {/* Distress badge */}
+          {is_distress && (
+            <div className="absolute top-2 left-2 z-10">
+              <span className="bg-red-600 text-white text-xs px-2 py-1 rounded-full flex items-center">
+                <AlertTriangle size={12} className="mr-1" />
+                Distress
+              </span>
             </div>
           )}
           {status === 'sold' && (
@@ -86,14 +96,13 @@ const ListingCard = ({ listing }) => {
             )}
           </div>
           <div className="mt-3 flex items-center justify-between text-xs text-gray-500">
-            {/* 👇 Only show views to owner */}
             {isOwner ? (
               <span className="flex items-center">
                 <Eye size={14} className="mr-1" />
                 {views} views
               </span>
             ) : (
-              <span></span> // placeholder for alignment
+              <span></span>
             )}
             <span>{timeAgo(created_at)}</span>
           </div>

@@ -4,25 +4,33 @@ import { useAuth } from '../hooks/useAuth';
 import { listingService } from '../services/listingService';
 import ListingGrid from '../components/listings/ListingGrid';
 import SearchBar from '../components/search/SearchBar';
-import { Car, Users, Shield, Zap, PlusCircle } from 'lucide-react';
+import { Car, Users, Shield, Zap, PlusCircle, AlertTriangle } from 'lucide-react';
 
 const HomePage = () => {
   const { user } = useAuth();
   const [featuredListings, setFeaturedListings] = useState([]);
+  const [distressListings, setDistressListings] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [distressLoading, setDistressLoading] = useState(true);
 
   useEffect(() => {
-    const loadFeatured = async () => {
+    const loadData = async () => {
       try {
-        const data = await listingService.getListings({ limit: 8 });
-        setFeaturedListings(data);
+        // Load both regular and distress listings in parallel
+        const [regular, distress] = await Promise.all([
+          listingService.getListings({ limit: 8 }),
+          listingService.getListings({ is_distress: true, limit: 4 })
+        ]);
+        setFeaturedListings(regular);
+        setDistressListings(distress);
       } catch (error) {
-        console.error('Error loading featured listings:', error);
+        console.error('Error loading listings:', error);
       } finally {
         setLoading(false);
+        setDistressLoading(false);
       }
     };
-    loadFeatured();
+    loadData();
   }, []);
 
   return (
@@ -61,7 +69,7 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Features (unchanged) */}
+      {/* Features */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-center mb-12">Why Choose AutoDealer</h2>
@@ -90,6 +98,33 @@ const HomePage = () => {
           </div>
         </div>
       </section>
+
+      {/* Distress Sales Section */}
+      {(!distressLoading && distressListings.length > 0) && (
+        <section className="py-16 bg-red-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center">
+                <AlertTriangle className="w-8 h-8 text-red-600 mr-3" />
+                <h2 className="text-3xl font-bold text-gray-900">🚨 Distress Sales</h2>
+              </div>
+              <Link
+                to="/distress"
+                className="text-red-600 hover:text-red-700 font-medium flex items-center"
+              >
+                View All
+                <svg className="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+            </div>
+            <p className="text-gray-600 mb-6">
+              Urgent sales – sellers are motivated to sell quickly. Don't miss these deals!
+            </p>
+            <ListingGrid listings={distressListings} loading={distressLoading} />
+          </div>
+        </section>
+      )}
 
       {/* Featured Listings */}
       <section className="py-16 bg-gray-50">

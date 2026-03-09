@@ -23,7 +23,7 @@ import {
   INTERIOR_CONDITION,
   AC_CONDITION,
   NIGERIAN_STATES,
-  PLAN_DETAILS, // 👈 import plan details for max listings
+  PLAN_DETAILS,
 } from '../../utils/constants';
 import { validateListingBasic } from '../../utils/validators';
 import { listingService } from '../../services/listingService';
@@ -45,6 +45,7 @@ const ListingForm = ({ initialData, isEditing = false }) => {
     location: '',
     exact_address: '',
     category: CAR_CATEGORIES.NIGERIAN_USED,
+    is_distress: false, // 👈 new field
 
     // Engine & Transmission
     engine_type: 'Petrol',
@@ -92,7 +93,7 @@ const ListingForm = ({ initialData, isEditing = false }) => {
   // Load initial data if editing
   useEffect(() => {
     if (initialData) {
-      setFormData({ ...formData, ...initialData });
+      setFormData(prev => ({ ...prev, ...initialData }));
     }
   }, [initialData]);
 
@@ -243,6 +244,19 @@ const ListingForm = ({ initialData, isEditing = false }) => {
             />
             <label htmlFor="negotiable" className="ml-2 block text-sm text-gray-900">
               Price is negotiable
+            </label>
+          </div>
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              name="is_distress"
+              id="is_distress"
+              checked={formData.is_distress}
+              onChange={handleChange}
+              className="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded"
+            />
+            <label htmlFor="is_distress" className="ml-2 block text-sm text-gray-900">
+              🚨 This is a distress sale (urgent, price may be negotiable)
             </label>
           </div>
           <div>

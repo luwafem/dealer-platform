@@ -24,8 +24,9 @@ import ProfilePage from './pages/ProfilePage';
 import DashboardPage from './pages/DashboardPage';
 import SubscriptionPage from './pages/SubscriptionPage';
 import AdminPage from './pages/AdminPage';
-import RateTransactionPage from './pages/RateTransactionPage'; // 👈 new
-import VerificationPage from './pages/VerificationPage'; // 👈 new
+import RateTransactionPage from './pages/RateTransactionPage';
+import VerificationPage from './pages/VerificationPage';
+import DistressPage from './pages/DistressPage'; // 👈 new import
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
                   <Route path="/register" element={<RegisterPage />} />
                   <Route path="/verify-phone" element={<PhoneVerificationPage />} />
                   <Route path="/search" element={<SearchPage />} />
+                  <Route path="/distress" element={<DistressPage />} /> {/* 👈 new public route */}
                   <Route path="/listings/:id" element={<ListingPage />} />
                   <Route
                     path="/add-listing"
@@ -85,7 +87,7 @@ function App() {
                     }
                   />
                   <Route
-                    path="/rate-transactions"  // 👈 new route
+                    path="/rate-transactions"
                     element={
                       <ProtectedRoute>
                         <RateTransactionPage />
@@ -93,7 +95,7 @@ function App() {
                     }
                   />
                   <Route
-                    path="/verification"        // 👈 new route
+                    path="/verification"
                     element={
                       <ProtectedRoute>
                         <VerificationPage />

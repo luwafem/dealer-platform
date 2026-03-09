@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import NotificationBell from './NotificationBell';
-import { Car, LogOut, User, LayoutDashboard, CreditCard, Shield, ChevronDown, Sparkles } from 'lucide-react';
+import { Car, LogOut, User, LayoutDashboard, CreditCard, Shield, ChevronDown, Sparkles, AlertTriangle } from 'lucide-react';
 
 const Header = () => {
   const { user, dealer, isAdmin, signOut } = useAuth();
@@ -10,7 +10,6 @@ const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -42,6 +41,10 @@ const Header = () => {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8">
           <NavLink to="/search">Browse Inventory</NavLink>
+          <NavLink to="/distress" className="text-red-600 hover:text-red-700">
+            <AlertTriangle size={16} className="inline mr-1" />
+            Distress
+          </NavLink>
           {user && (
             <>
               <NavLink to="/dashboard">Dashboard</NavLink>
@@ -86,6 +89,9 @@ const Header = () => {
                     <DropdownLink to="/dashboard" onClick={() => setIsDropdownOpen(false)} icon={<LayoutDashboard size={16} />}>Inventory Manager</DropdownLink>
                     <DropdownLink to="/subscriptions" onClick={() => setIsDropdownOpen(false)} icon={<CreditCard size={16} />}>Billing & Plans</DropdownLink>
                     
+                    {/* Distress Sales link */}
+                    <DropdownLink to="/distress" onClick={() => setIsDropdownOpen(false)} icon={<AlertTriangle size={16} />}>Distress Sales</DropdownLink>
+                    
                     {isAdmin && (
                       <DropdownLink to="/admin" onClick={() => setIsDropdownOpen(false)} icon={<Shield size={16} />}>Admin Control</DropdownLink>
                     )}
@@ -116,8 +122,8 @@ const Header = () => {
   );
 };
 
-const NavLink = ({ to, children }) => (
-  <Link to={to} className="text-sm font-semibold text-zinc-500 hover:text-zinc-900 transition-colors relative group">
+const NavLink = ({ to, children, className }) => (
+  <Link to={to} className={`text-sm font-semibold text-zinc-500 hover:text-zinc-900 transition-colors relative group ${className}`}>
     {children}
     <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-zinc-900 transition-all group-hover:w-full" />
   </Link>

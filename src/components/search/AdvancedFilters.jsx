@@ -25,6 +25,10 @@ const AdvancedFilters = ({ isOpen, onClose }) => {
     setLocalFilters(prev => ({ ...prev, [key]: value }));
   };
 
+  const handleCheckboxChange = (key, checked) => {
+    setLocalFilters(prev => ({ ...prev, [key]: checked }));
+  };
+
   const handleApply = () => {
     setFilters(localFilters);
     executeSearch(localFilters);
@@ -41,6 +45,7 @@ const AdvancedFilters = ({ isOpen, onClose }) => {
       maxPrice: '',
       location: '',
       category: '',
+      distressOnly: false, // 👈 new filter
       dealBreakers: [],
       mustHaves: [],
       trim: '',
@@ -161,6 +166,20 @@ const AdvancedFilters = ({ isOpen, onClose }) => {
                   <option value={CAR_CATEGORIES.NIGERIAN_USED}>Nigerian Used</option>
                   <option value={CAR_CATEGORIES.TOKUNBO}>Tokunbo</option>
                 </select>
+              </div>
+
+              {/* 👇 Distress Only Checkbox */}
+              <div className="flex items-center pt-2">
+                <input
+                  type="checkbox"
+                  id="distressOnly"
+                  checked={localFilters.distressOnly || false}
+                  onChange={(e) => handleCheckboxChange('distressOnly', e.target.checked)}
+                  className="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded"
+                />
+                <label htmlFor="distressOnly" className="ml-2 block text-sm text-gray-900">
+                  🚨 Distress sales only (urgent)
+                </label>
               </div>
             </div>
           </FilterSection>

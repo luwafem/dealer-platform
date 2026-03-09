@@ -3,7 +3,7 @@ import { supabase } from '../lib/supabase';
 /**
  * Listing Service
  * 
- * Requires the following RPC function in Supabase:
+ * Requires the following RPC functions in Supabase:
  * 
  * CREATE OR REPLACE FUNCTION increment_listing_views(listing_id UUID)
  * RETURNS void AS $$
@@ -81,7 +81,7 @@ export const listingService = {
       listing.dealer = dealer;
     } catch (dealerError) {
       console.log('Dealer info not available:', dealerError.message);
-      listing.dealer = null; // dealer section will be skipped
+      listing.dealer = null;
     }
 
     return listing;
@@ -89,26 +89,32 @@ export const listingService = {
 
   // Get listings with optional filters (public, no dealer join)
   async getListings(filters = {}) {
-    let query = supabase
-      .from('listings')
-      .select('*')  // no dealer join – avoids RLS issues on dealers
-      .eq('status', filters.status || 'available')
-      .order('created_at', { ascending: false });
+    try {
+      let query = supabase
+        .from('listings')
+        .select('*')
+        .eq('status', filters.status || 'available')
+        .order('created_at', { ascending: false });
 
-    // Apply filters
-    if (filters.make) query = query.eq('make', filters.make);
-    if (filters.model) query = query.ilike('model', `%${filters.model}%`);
-    if (filters.minYear) query = query.gte('year', filters.minYear);
-    if (filters.maxYear) query = query.lte('year', filters.maxYear);
-    if (filters.minPrice) query = query.gte('price', filters.minPrice);
-    if (filters.maxPrice) query = query.lte('price', filters.maxPrice);
-    if (filters.location) query = query.eq('location', filters.location);
-    if (filters.category) query = query.eq('category', filters.category);
-    if (filters.limit) query = query.limit(filters.limit);
+      // Apply filters
+      if (filters.make) query = query.eq('make', filters.make);
+      if (filters.model) query = query.ilike('model', `%${filters.model}%`);
+      if (filters.minYear) query = query.gte('year', filters.minYear);
+      if (filters.maxYear) query = query.lte('year', filters.maxYear);
+      if (filters.minPrice) query = query.gte('price', filters.minPrice);
+      if (filters.maxPrice) query = query.lte('price', filters.maxPrice);
+      if (filters.location) query = query.eq('location', filters.location);
+      if (filters.category) query = query.eq('category', filters.category);
+      if (filters.is_distress !== undefined) query = query.eq('is_distress', filters.is_distress);
+      if (filters.limit) query = query.limit(filters.limit);
 
-    const { data, error } = await query;
-    if (error) throw error;
-    return data;
+      const { data, error } = await query;
+      if (error) throw error;
+      return data;
+    } catch (error) {
+      console.error('Error in getListings:', error);
+      throw error;
+    }
   },
 
   // Get listings that the user has saved (watched)
@@ -154,13 +160,29 @@ export const listingService = {
   },
 
   // Check if dealer can create a new listing based on plan limits
-  async canCreateListing(dealerId) {
+  // Check if dealer can create a new listing based on plan limits
+async canCreateListing(dealerId) {
+  try {
     const { data, error } = await supabase.rpc('can_create_listing', {
       dealer_id: dealerId,
     });
-    if (error) throw error;
-    return data; // boolean
-  },
+    if (error) {
+      // Log the complete error details from Supabase
+      console.error('Supabase RPC error:', {
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        code: error.code
+      });
+      throw new Error(error.message || 'Failed to verify listing limit');
+    }
+    return data;
+  } catch (error) {
+    console.error('Error checking listing limit:', error);
+    // Re-throw with the original error message if available
+    throw new Error(error.message || 'Failed to verify listing limit. Please try again.');
+  }
+},
 
   // Delete a listing
   async deleteListing(id) {
@@ -175,11 +197,13 @@ export const listingService = {
 
   // Increment view count
   async incrementViews(id) {
-    const { error } = await supabase.rpc('increment_listing_views', { listing_id: id });
-    if (error) {
-      console.error('Error incrementing views:', error);
-      // Optionally rethrow if you want calling code to handle it
-      // throw error;
+    try {
+      const { error } = await supabase.rpc('increment_listing_views', { listing_id: id });
+      if (error) {
+        console.error('Error incrementing views:', error);
+      }
+    } catch (error) {
+      console.error('Failed to increment views:', error);
     }
   },
 };

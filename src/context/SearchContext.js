@@ -1,7 +1,8 @@
 import React, { createContext, useState, useContext, useCallback } from 'react';
-import { useAuth } from '../hooks/useAuth';                // 👈 added
+import { useAuth } from '../hooks/useAuth';
+import { listingService } from '../services/listingService';   // 👈 new import
 import { searchService } from '../services/searchService';
-import { dnaService } from '../services/dnaService';      // 👈 added
+import { dnaService } from '../services/dnaService';
 
 const SearchContext = createContext();
 
@@ -12,9 +13,8 @@ export const useSearch = () => {
 };
 
 export const SearchProvider = ({ children }) => {
-  const { user } = useAuth();                              // 👈 get current user
+  const { user } = useAuth();
   const [filters, setFilters] = useState({
-    // Basic
     make: '',
     model: '',
     minYear: '',
@@ -23,17 +23,9 @@ export const SearchProvider = ({ children }) => {
     maxPrice: '',
     location: '',
     category: '',
-
-    // Deal breakers (exclude)
     dealBreakers: [],
-
-    // Must-haves (require)
     mustHaves: [],
-
-    // Trim
     trim: '',
-
-    // Additional
     engineType: '',
     transmission: '',
     mileageMax: '',
@@ -47,7 +39,20 @@ export const SearchProvider = ({ children }) => {
   const [totalCount, setTotalCount] = useState(0);
   const [savedSearches, setSavedSearches] = useState([]);
 
-  // Execute search
+  // 👇 NEW: Load default recent listings (e.g., for initial page view)
+  const loadDefaultListings = useCallback(async () => {
+    setLoading(true);
+    try {
+      const data = await listingService.getListings({ limit: 12 }); // adjust limit as needed
+      setResults(data);
+      setTotalCount(data.length);
+    } catch (error) {
+      console.error('Error loading default listings:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   const executeSearch = useCallback(async (searchFilters = filters, query = searchQuery) => {
     setLoading(true);
     try {
@@ -58,13 +63,11 @@ export const SearchProvider = ({ children }) => {
       setResults(data);
       setTotalCount(data.length);
 
-      // 👇 Record search for DNA (only if user is logged in)
       if (user) {
         try {
           await dnaService.recordSearch({ ...searchFilters, query }, data.length);
         } catch (dnaError) {
           console.error('Failed to record search for DNA:', dnaError);
-          // Non‑blocking – don't affect user experience
         }
       }
     } catch (error) {
@@ -72,9 +75,8 @@ export const SearchProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  }, [filters, searchQuery, user]);                         // 👈 added user dependency
+  }, [filters, searchQuery, user]);
 
-  // Save current search
   const saveCurrentSearch = async (name) => {
     try {
       const saved = await searchService.saveSearch({
@@ -91,7 +93,6 @@ export const SearchProvider = ({ children }) => {
     }
   };
 
-  // Load saved searches for current user
   const loadSavedSearches = async () => {
     try {
       const data = await searchService.getSavedSearches();
@@ -101,7 +102,6 @@ export const SearchProvider = ({ children }) => {
     }
   };
 
-  // Clear all filters
   const clearFilters = () => {
     setFilters({
       make: '',
@@ -137,6 +137,7 @@ export const SearchProvider = ({ children }) => {
     savedSearches,
     loadSavedSearches,
     clearFilters,
+    loadDefaultListings,   // 👈 expose the new function
   };
 
   return <SearchContext.Provider value={value}>{children}</SearchContext.Provider>;
