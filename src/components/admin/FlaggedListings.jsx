@@ -41,87 +41,87 @@ const FlaggedListings = () => {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-lg shadow p-6">
+      <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-6">
         <div className="animate-pulse space-y-3">
-          <div className="h-4 bg-gray-200 rounded w-1/4"></div>
-          <div className="h-10 bg-gray-200 rounded"></div>
+          <div className="h-4 bg-gray-300 border-2 border-black w-1/4"></div>
+          <div className="h-10 bg-gray-300 border-2 border-black"></div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="bg-white rounded-lg shadow overflow-hidden">
-      <div className="px-6 py-4 border-b flex items-center">
-        <AlertTriangle className="w-5 h-5 text-red-500 mr-2" />
-        <h2 className="text-lg font-semibold">Flagged Listings</h2>
-        <span className="ml-2 bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">
+    <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] overflow-hidden">
+      <div className="px-6 py-4 border-b-2 border-black flex items-center">
+        <AlertTriangle size={20} strokeWidth={2} className="mr-2" />
+        <h2 className="text-2xl font-black uppercase tracking-tighter">Flagged Listings</h2>
+        <span className="ml-2 border-2 border-black bg-white px-2 py-1 text-xs font-bold">
           {reports.length} pending
         </span>
       </div>
 
       {reports.length === 0 ? (
-        <div className="p-6 text-center text-gray-500">No pending reports</div>
+        <div className="p-6 text-center font-bold">No pending reports</div>
       ) : (
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+          <table className="min-w-full divide-y-2 divide-black">
+            <thead className="bg-black text-white">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Listing</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Reporter</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Reason</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                <th className="px-6 py-3 text-left text-xs font-black uppercase tracking-wider">Listing</th>
+                <th className="px-6 py-3 text-left text-xs font-black uppercase tracking-wider">Reporter</th>
+                <th className="px-6 py-3 text-left text-xs font-black uppercase tracking-wider">Reason</th>
+                <th className="px-6 py-3 text-left text-xs font-black uppercase tracking-wider">Date</th>
+                <th className="px-6 py-3 text-left text-xs font-black uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white divide-y-2 divide-black">
               {reports.map((report) => (
-                <tr key={report.id} className="hover:bg-gray-50">
+                <tr key={report.id} className="hover:bg-yellow-100 transition-colors">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div>
-                      <p className="font-medium">
+                      <p className="font-black uppercase">
                         {report.listing?.make} {report.listing?.model} {report.listing?.year}
                       </p>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm font-bold">
                         {formatNaira(report.listing?.price)}
                       </p>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <p className="font-medium">{report.reporter?.business_name}</p>
-                    <p className="text-sm text-gray-500">{report.reporter?.phone}</p>
+                    <p className="font-black uppercase">{report.reporter?.business_name}</p>
+                    <p className="text-sm font-bold">{report.reporter?.phone}</p>
                   </td>
                   <td className="px-6 py-4">
-                    <p className="font-medium">{report.reason}</p>
+                    <p className="font-black uppercase">{report.reason}</p>
                     {report.description && (
-                      <p className="text-sm text-gray-500">{report.description}</p>
+                      <p className="text-sm font-bold">{report.description}</p>
                     )}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-bold">
                     {timeAgo(report.created_at)}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                  <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex space-x-2">
                       <button
                         onClick={() => window.open(`/listings/${report.listing_id}`, '_blank')}
-                        className="text-blue-600 hover:text-blue-800"
+                        className="border-2 border-black p-1 hover:bg-black hover:text-white transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
                         title="View"
                       >
-                        <Eye size={18} />
+                        <Eye size={16} strokeWidth={2} />
                       </button>
                       <button
                         onClick={() => handleResolve(report.id, report.listing_id, 'approve')}
-                        className="text-green-600 hover:text-green-800"
+                        className="border-2 border-black p-1 hover:bg-black hover:text-white transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
                         title="Resolve (keep listing)"
                       >
-                        <CheckCircle size={18} />
+                        <CheckCircle size={16} strokeWidth={2} />
                       </button>
                       <button
                         onClick={() => handleResolve(report.id, report.listing_id, 'dismiss')}
-                        className="text-red-600 hover:text-red-800"
+                        className="border-2 border-black p-1 hover:bg-black hover:text-white transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
                         title="Dismiss report"
                       >
-                        <XCircle size={18} />
+                        <XCircle size={16} strokeWidth={2} />
                       </button>
                     </div>
                   </td>

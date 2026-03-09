@@ -5,20 +5,18 @@ import { formatNaira } from '../../utils/formatters';
 const CompareTable = ({ listings }) => {
   if (!listings || listings.length < 2) return null;
 
-  // Helper to determine cell color based on values
+  // Helper to determine cell color based on values (kept for visual cues)
   const getCellClass = (value, compareValues) => {
-    // For boolean or simple comparison
     if (typeof value === 'boolean') {
-      return value ? 'bg-green-50' : 'bg-red-50';
+      return value ? 'bg-green-100' : 'bg-red-100';
     }
     if (typeof value === 'number') {
-      // Compare with other listings' same field
       const otherValues = compareValues.filter(v => v !== value);
       if (otherValues.length === 0) return '';
       const avg = otherValues.reduce((a, b) => a + b, 0) / otherValues.length;
-      if (value > avg) return 'bg-green-50';
-      if (value < avg) return 'bg-red-50';
-      return 'bg-yellow-50';
+      if (value > avg) return 'bg-green-100';
+      if (value < avg) return 'bg-red-100';
+      return 'bg-yellow-100';
     }
     return '';
   };
@@ -37,33 +35,33 @@ const CompareTable = ({ listings }) => {
     { key: 'condition', label: 'Condition' },
     { key: 'accident_history', label: 'Accident History' },
     { key: 'customs_status', label: 'Customs' },
-    { key: 'sunroof', label: 'Sunroof', format: (v) => v ? <Check className="text-green-600" /> : <X className="text-red-400" /> },
-    { key: 'leather', label: 'Leather Seats', format: (v) => v ? <Check className="text-green-600" /> : <X className="text-red-400" /> },
-    { key: 'navigation', label: 'Navigation', format: (v) => v ? <Check className="text-green-600" /> : <X className="text-red-400" /> },
-    { key: 'backup_camera', label: 'Backup Camera', format: (v) => v ? <Check className="text-green-600" /> : <X className="text-red-400" /> },
+    { key: 'sunroof', label: 'Sunroof', format: (v) => v ? <Check className="text-black" strokeWidth={2} /> : <X className="text-black" strokeWidth={2} /> },
+    { key: 'leather', label: 'Leather Seats', format: (v) => v ? <Check className="text-black" strokeWidth={2} /> : <X className="text-black" strokeWidth={2} /> },
+    { key: 'navigation', label: 'Navigation', format: (v) => v ? <Check className="text-black" strokeWidth={2} /> : <X className="text-black" strokeWidth={2} /> },
+    { key: 'backup_camera', label: 'Backup Camera', format: (v) => v ? <Check className="text-black" strokeWidth={2} /> : <X className="text-black" strokeWidth={2} /> },
   ];
 
   return (
-    <div className="overflow-x-auto">
-      <table className="min-w-full divide-y divide-gray-200">
+    <div className="overflow-x-auto border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+      <table className="min-w-full divide-y-2 divide-black">
         <thead>
-          <tr>
-            <th className="px-4 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <tr className="bg-black text-white">
+            <th className="px-4 py-3 text-left text-xs font-black uppercase tracking-wider border-r-2 border-black">
               Feature
             </th>
             {listings.map((listing, idx) => (
-              <th key={idx} className="px-4 py-3 bg-gray-50 text-center text-sm font-semibold text-gray-900">
+              <th key={idx} className="px-4 py-3 text-center text-sm font-black uppercase tracking-wider border-r-2 border-black last:border-r-0">
                 {listing.make} {listing.model} {listing.year}
               </th>
             ))}
           </tr>
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
+        <tbody className="bg-white divide-y-2 divide-black">
           {fields.map((field) => {
             const values = listings.map(l => l[field.key]);
             return (
               <tr key={field.key}>
-                <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">
+                <td className="px-4 py-3 whitespace-nowrap text-sm font-black uppercase border-r-2 border-black bg-gray-100">
                   {field.label}
                 </td>
                 {listings.map((listing, idx) => {
@@ -71,7 +69,7 @@ const CompareTable = ({ listings }) => {
                   const displayValue = field.format ? field.format(rawValue) : rawValue ?? '—';
                   const cellClass = getCellClass(rawValue, values);
                   return (
-                    <td key={idx} className={`px-4 py-3 text-center text-sm ${cellClass}`}>
+                    <td key={idx} className={`px-4 py-3 text-center text-sm font-bold border-r-2 border-black last:border-r-0 ${cellClass}`}>
                       {displayValue}
                     </td>
                   );

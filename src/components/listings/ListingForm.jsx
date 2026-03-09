@@ -45,7 +45,7 @@ const ListingForm = ({ initialData, isEditing = false }) => {
     location: '',
     exact_address: '',
     category: CAR_CATEGORIES.NIGERIAN_USED,
-    is_distress: false, // 👈 new field
+    is_distress: false,
 
     // Engine & Transmission
     engine_type: 'Petrol',
@@ -172,18 +172,20 @@ const ListingForm = ({ initialData, isEditing = false }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-8 max-w-4xl mx-auto p-4">
+    <form onSubmit={handleSubmit} className="space-y-8 max-w-4xl mx-auto p-4 bg-[#f4f4f2] text-[#1a1a1a] selection:bg-yellow-300">
       {/* Basic Info */}
-      <section className="bg-white p-6 rounded-lg shadow">
-        <h2 className="text-xl font-bold mb-4">Basic Information</h2>
+      <section className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-6">
+        <h2 className="text-2xl font-black uppercase tracking-tighter mb-6 border-b-2 border-black pb-2">
+          Basic Information
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700">Make *</label>
+            <label className="block text-sm font-bold uppercase mb-1">Make *</label>
             <select
               name="make"
               value={formData.make}
               onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
               required
             >
               <option value="">Select Make</option>
@@ -191,22 +193,22 @@ const ListingForm = ({ initialData, isEditing = false }) => {
                 <option key={make} value={make}>{make}</option>
               ))}
             </select>
-            {errors.make && <p className="text-red-500 text-xs mt-1">{errors.make}</p>}
+            {errors.make && <p className="text-red-600 text-xs mt-1 font-bold">{errors.make}</p>}
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Model *</label>
+            <label className="block text-sm font-bold uppercase mb-1">Model *</label>
             <input
               type="text"
               name="model"
               value={formData.model}
               onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
               required
             />
-            {errors.model && <p className="text-red-500 text-xs mt-1">{errors.model}</p>}
+            {errors.model && <p className="text-red-600 text-xs mt-1 font-bold">{errors.model}</p>}
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Year *</label>
+            <label className="block text-sm font-bold uppercase mb-1">Year *</label>
             <input
               type="number"
               name="year"
@@ -214,13 +216,13 @@ const ListingForm = ({ initialData, isEditing = false }) => {
               onChange={handleChange}
               min="1900"
               max={new Date().getFullYear() + 1}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
               required
             />
-            {errors.year && <p className="text-red-500 text-xs mt-1">{errors.year}</p>}
+            {errors.year && <p className="text-red-600 text-xs mt-1 font-bold">{errors.year}</p>}
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Price (₦) *</label>
+            <label className="block text-sm font-bold uppercase mb-1">Price (₦) *</label>
             <input
               type="number"
               name="price"
@@ -228,44 +230,40 @@ const ListingForm = ({ initialData, isEditing = false }) => {
               onChange={handleChange}
               min="0"
               step="1000"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
               required
             />
-            {errors.price && <p className="text-red-500 text-xs mt-1">{errors.price}</p>}
+            {errors.price && <p className="text-red-600 text-xs mt-1 font-bold">{errors.price}</p>}
           </div>
-          <div className="flex items-center">
-            <input
-              type="checkbox"
-              name="negotiable"
-              id="negotiable"
-              checked={formData.negotiable}
-              onChange={handleChange}
-              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-            />
-            <label htmlFor="negotiable" className="ml-2 block text-sm text-gray-900">
-              Price is negotiable
+          <div className="flex items-center space-x-4">
+            <label className="inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                name="negotiable"
+                checked={formData.negotiable}
+                onChange={handleChange}
+                className="w-5 h-5 border-2 border-black checked:bg-yellow-400 focus:ring-0 focus:outline-none"
+              />
+              <span className="ml-2 text-sm font-bold uppercase">Price Negotiable</span>
             </label>
-          </div>
-          <div className="flex items-center">
-            <input
-              type="checkbox"
-              name="is_distress"
-              id="is_distress"
-              checked={formData.is_distress}
-              onChange={handleChange}
-              className="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded"
-            />
-            <label htmlFor="is_distress" className="ml-2 block text-sm text-gray-900">
-              🚨 This is a distress sale (urgent, price may be negotiable)
+            <label className="inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                name="is_distress"
+                checked={formData.is_distress}
+                onChange={handleChange}
+                className="w-5 h-5 border-2 border-black checked:bg-yellow-400 focus:ring-0 focus:outline-none"
+              />
+              <span className="ml-2 text-sm font-bold uppercase">🚨 Distress Sale</span>
             </label>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Location (State) *</label>
+            <label className="block text-sm font-bold uppercase mb-1">Location (State) *</label>
             <select
               name="location"
               value={formData.location}
               onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
               required
             >
               <option value="">Select State</option>
@@ -273,62 +271,66 @@ const ListingForm = ({ initialData, isEditing = false }) => {
                 <option key={state} value={state}>{state}</option>
               ))}
             </select>
-            {errors.location && <p className="text-red-500 text-xs mt-1">{errors.location}</p>}
+            {errors.location && <p className="text-red-600 text-xs mt-1 font-bold">{errors.location}</p>}
           </div>
           <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-700">Exact Address (Optional)</label>
+            <label className="block text-sm font-bold uppercase mb-1">Exact Address (Optional)</label>
             <input
               type="text"
               name="exact_address"
               value={formData.exact_address}
               onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
             />
           </div>
         </div>
       </section>
 
       {/* Category Selection */}
-      <section className="bg-white p-6 rounded-lg shadow">
-        <h2 className="text-xl font-bold mb-4">Category</h2>
-        <div className="flex space-x-4">
-          <label className="inline-flex items-center">
+      <section className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-6">
+        <h2 className="text-2xl font-black uppercase tracking-tighter mb-6 border-b-2 border-black pb-2">
+          Category
+        </h2>
+        <div className="flex flex-wrap gap-4">
+          <label className="inline-flex items-center cursor-pointer">
             <input
               type="radio"
               name="category"
               value={CAR_CATEGORIES.NIGERIAN_USED}
               checked={formData.category === CAR_CATEGORIES.NIGERIAN_USED}
               onChange={() => handleCategoryChange(CAR_CATEGORIES.NIGERIAN_USED)}
-              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+              className="w-5 h-5 border-2 border-black text-yellow-400 focus:ring-0 focus:outline-none"
             />
-            <span className="ml-2">Nigerian Used</span>
+            <span className="ml-2 text-sm font-bold uppercase">Nigerian Used</span>
           </label>
-          <label className="inline-flex items-center">
+          <label className="inline-flex items-center cursor-pointer">
             <input
               type="radio"
               name="category"
               value={CAR_CATEGORIES.TOKUNBO}
               checked={formData.category === CAR_CATEGORIES.TOKUNBO}
               onChange={() => handleCategoryChange(CAR_CATEGORIES.TOKUNBO)}
-              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+              className="w-5 h-5 border-2 border-black text-yellow-400 focus:ring-0 focus:outline-none"
             />
-            <span className="ml-2">Tokunbo (Foreign Used)</span>
+            <span className="ml-2 text-sm font-bold uppercase">Tokunbo (Foreign Used)</span>
           </label>
         </div>
       </section>
 
       {/* Conditional: Tokunbo fields */}
       {formData.category === CAR_CATEGORIES.TOKUNBO && (
-        <section className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-xl font-bold mb-4">Tokunbo Details</h2>
+        <section className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-6">
+          <h2 className="text-2xl font-black uppercase tracking-tighter mb-6 border-b-2 border-black pb-2">
+            Tokunbo Details
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700">Country of Origin</label>
+              <label className="block text-sm font-bold uppercase mb-1">Country of Origin</label>
               <select
                 name="country_origin"
                 value={formData.country_origin}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
               >
                 <option value="">Select Country</option>
                 {TOKUNBO_COUNTRIES.map(c => (
@@ -337,7 +339,7 @@ const ListingForm = ({ initialData, isEditing = false }) => {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Year of Import</label>
+              <label className="block text-sm font-bold uppercase mb-1">Year of Import</label>
               <input
                 type="number"
                 name="year_imported"
@@ -345,16 +347,16 @@ const ListingForm = ({ initialData, isEditing = false }) => {
                 onChange={handleChange}
                 min="1900"
                 max={new Date().getFullYear()}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Customs Status</label>
+              <label className="block text-sm font-bold uppercase mb-1">Customs Status</label>
               <select
                 name="customs_status"
                 value={formData.customs_status}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
               >
                 <option value="">Select</option>
                 {CUSTOMS_STATUS.map(s => (
@@ -363,12 +365,12 @@ const ListingForm = ({ initialData, isEditing = false }) => {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Customs Document</label>
+              <label className="block text-sm font-bold uppercase mb-1">Customs Document</label>
               <select
                 name="customs_document"
                 value={formData.customs_document}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
               >
                 <option value="">Select</option>
                 {CUSTOMS_DOCUMENT.map(d => (
@@ -377,23 +379,23 @@ const ListingForm = ({ initialData, isEditing = false }) => {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Mileage at Import (km)</label>
+              <label className="block text-sm font-bold uppercase mb-1">Mileage at Import (km)</label>
               <input
                 type="number"
                 name="mileage_at_import"
                 value={formData.mileage_at_import}
                 onChange={handleChange}
                 min="0"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Shipping Damage</label>
+              <label className="block text-sm font-bold uppercase mb-1">Shipping Damage</label>
               <select
                 name="shipping_damage"
                 value={formData.shipping_damage}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
               >
                 {SHIPPING_DAMAGE.map(d => (
                   <option key={d} value={d}>{d}</option>
@@ -401,12 +403,12 @@ const ListingForm = ({ initialData, isEditing = false }) => {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Port of Clearing</label>
+              <label className="block text-sm font-bold uppercase mb-1">Port of Clearing</label>
               <select
                 name="port_clearing"
                 value={formData.port_clearing}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
               >
                 <option value="">Select Port</option>
                 {PORTS.map(p => (
@@ -420,16 +422,18 @@ const ListingForm = ({ initialData, isEditing = false }) => {
 
       {/* Conditional: Nigerian Used fields */}
       {formData.category === CAR_CATEGORIES.NIGERIAN_USED && (
-        <section className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-xl font-bold mb-4">Nigerian Used Details</h2>
+        <section className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-6">
+          <h2 className="text-2xl font-black uppercase tracking-tighter mb-6 border-b-2 border-black pb-2">
+            Nigerian Used Details
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700">Number of Nigerian Owners</label>
+              <label className="block text-sm font-bold uppercase mb-1">Number of Nigerian Owners</label>
               <select
                 name="owner_count"
                 value={formData.owner_count}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
               >
                 <option value="">Select</option>
                 {OWNER_COUNT.map(o => (
@@ -438,12 +442,12 @@ const ListingForm = ({ initialData, isEditing = false }) => {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Usage History</label>
+              <label className="block text-sm font-bold uppercase mb-1">Usage History</label>
               <select
                 name="usage_history"
                 value={formData.usage_history}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
               >
                 <option value="">Select</option>
                 {USAGE_HISTORY.map(u => (
@@ -452,12 +456,12 @@ const ListingForm = ({ initialData, isEditing = false }) => {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Service History</label>
+              <label className="block text-sm font-bold uppercase mb-1">Service History</label>
               <select
                 name="service_history"
                 value={formData.service_history}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
               >
                 {SERVICE_HISTORY.map(s => (
                   <option key={s} value={s}>{s}</option>
@@ -465,12 +469,12 @@ const ListingForm = ({ initialData, isEditing = false }) => {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Accident History in Nigeria</label>
+              <label className="block text-sm font-bold uppercase mb-1">Accident History in Nigeria</label>
               <select
                 name="accident_nigeria"
                 value={formData.accident_nigeria}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
               >
                 {ACCIDENT_NIGERIA.map(a => (
                   <option key={a} value={a}>{a}</option>
@@ -478,12 +482,12 @@ const ListingForm = ({ initialData, isEditing = false }) => {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Roadworthiness</label>
+              <label className="block text-sm font-bold uppercase mb-1">Roadworthiness</label>
               <select
                 name="roadworthiness"
                 value={formData.roadworthiness}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
               >
                 <option value="">Select</option>
                 {ROADWORTHINESS.map(r => (
@@ -496,16 +500,18 @@ const ListingForm = ({ initialData, isEditing = false }) => {
       )}
 
       {/* Engine & Transmission */}
-      <section className="bg-white p-6 rounded-lg shadow">
-        <h2 className="text-xl font-bold mb-4">Engine & Transmission</h2>
+      <section className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-6">
+        <h2 className="text-2xl font-black uppercase tracking-tighter mb-6 border-b-2 border-black pb-2">
+          Engine & Transmission
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700">Engine Type</label>
+            <label className="block text-sm font-bold uppercase mb-1">Engine Type</label>
             <select
               name="engine_type"
               value={formData.engine_type}
               onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
             >
               {ENGINE_TYPES.map(e => (
                 <option key={e} value={e}>{e}</option>
@@ -513,12 +519,12 @@ const ListingForm = ({ initialData, isEditing = false }) => {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Engine Condition</label>
+            <label className="block text-sm font-bold uppercase mb-1">Engine Condition</label>
             <select
               name="engine_condition"
               value={formData.engine_condition}
               onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
             >
               {ENGINE_CONDITION.map(c => (
                 <option key={c} value={c}>{c}</option>
@@ -526,23 +532,23 @@ const ListingForm = ({ initialData, isEditing = false }) => {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Engine Size (e.g., 2.4L)</label>
+            <label className="block text-sm font-bold uppercase mb-1">Engine Size (e.g., 2.4L)</label>
             <input
               type="text"
               name="engine_size"
               value={formData.engine_size}
               onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
               placeholder="e.g., 2.4L"
+              className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Transmission</label>
+            <label className="block text-sm font-bold uppercase mb-1">Transmission</label>
             <select
               name="transmission"
               value={formData.transmission}
               onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
             >
               {TRANSMISSION_TYPES.map(t => (
                 <option key={t} value={t}>{t}</option>
@@ -550,12 +556,12 @@ const ListingForm = ({ initialData, isEditing = false }) => {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Transmission Condition</label>
+            <label className="block text-sm font-bold uppercase mb-1">Transmission Condition</label>
             <select
               name="transmission_condition"
               value={formData.transmission_condition}
               onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
             >
               {TRANSMISSION_CONDITION.map(c => (
                 <option key={c} value={c}>{c}</option>
@@ -563,23 +569,23 @@ const ListingForm = ({ initialData, isEditing = false }) => {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Mileage (km)</label>
+            <label className="block text-sm font-bold uppercase mb-1">Mileage (km)</label>
             <input
               type="number"
               name="mileage"
               value={formData.mileage}
               onChange={handleChange}
               min="0"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Mileage Accuracy</label>
+            <label className="block text-sm font-bold uppercase mb-1">Mileage Accuracy</label>
             <select
               name="mileage_accuracy"
               value={formData.mileage_accuracy}
               onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
             >
               <option value="Exact">Exact</option>
               <option value="Approximate">Approximate</option>
@@ -590,16 +596,18 @@ const ListingForm = ({ initialData, isEditing = false }) => {
       </section>
 
       {/* Body & Interior */}
-      <section className="bg-white p-6 rounded-lg shadow">
-        <h2 className="text-xl font-bold mb-4">Body & Interior</h2>
+      <section className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-6">
+        <h2 className="text-2xl font-black uppercase tracking-tighter mb-6 border-b-2 border-black pb-2">
+          Body & Interior
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700">Paint</label>
+            <label className="block text-sm font-bold uppercase mb-1">Paint</label>
             <select
               name="paint"
               value={formData.paint}
               onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
             >
               {PAINT.map(p => (
                 <option key={p} value={p}>{p}</option>
@@ -607,12 +615,12 @@ const ListingForm = ({ initialData, isEditing = false }) => {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Rust</label>
+            <label className="block text-sm font-bold uppercase mb-1">Rust</label>
             <select
               name="rust"
               value={formData.rust}
               onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
             >
               {RUST.map(r => (
                 <option key={r} value={r}>{r}</option>
@@ -620,12 +628,12 @@ const ListingForm = ({ initialData, isEditing = false }) => {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Interior Condition</label>
+            <label className="block text-sm font-bold uppercase mb-1">Interior Condition</label>
             <select
               name="interior_condition"
               value={formData.interior_condition}
               onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
             >
               {INTERIOR_CONDITION.map(c => (
                 <option key={c} value={c}>{c}</option>
@@ -633,12 +641,12 @@ const ListingForm = ({ initialData, isEditing = false }) => {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Air Conditioning</label>
+            <label className="block text-sm font-bold uppercase mb-1">Air Conditioning</label>
             <select
               name="ac"
               value={formData.ac}
               onChange={handleChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
             >
               {AC_CONDITION.map(a => (
                 <option key={a} value={a}>{a}</option>
@@ -647,62 +655,64 @@ const ListingForm = ({ initialData, isEditing = false }) => {
           </div>
         </div>
         <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4">
-          <label className="inline-flex items-center">
+          <label className="inline-flex items-center cursor-pointer">
             <input
               type="checkbox"
               name="sunroof"
               checked={formData.sunroof}
               onChange={handleChange}
-              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+              className="w-5 h-5 border-2 border-black checked:bg-yellow-400 focus:ring-0 focus:outline-none"
             />
-            <span className="ml-2 text-sm">Sunroof</span>
+            <span className="ml-2 text-sm font-bold uppercase">Sunroof</span>
           </label>
-          <label className="inline-flex items-center">
+          <label className="inline-flex items-center cursor-pointer">
             <input
               type="checkbox"
               name="leather"
               checked={formData.leather}
               onChange={handleChange}
-              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+              className="w-5 h-5 border-2 border-black checked:bg-yellow-400 focus:ring-0 focus:outline-none"
             />
-            <span className="ml-2 text-sm">Leather Seats</span>
+            <span className="ml-2 text-sm font-bold uppercase">Leather Seats</span>
           </label>
-          <label className="inline-flex items-center">
+          <label className="inline-flex items-center cursor-pointer">
             <input
               type="checkbox"
               name="navigation"
               checked={formData.navigation}
               onChange={handleChange}
-              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+              className="w-5 h-5 border-2 border-black checked:bg-yellow-400 focus:ring-0 focus:outline-none"
             />
-            <span className="ml-2 text-sm">Navigation</span>
+            <span className="ml-2 text-sm font-bold uppercase">Navigation</span>
           </label>
-          <label className="inline-flex items-center">
+          <label className="inline-flex items-center cursor-pointer">
             <input
               type="checkbox"
               name="backup_camera"
               checked={formData.backup_camera}
               onChange={handleChange}
-              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+              className="w-5 h-5 border-2 border-black checked:bg-yellow-400 focus:ring-0 focus:outline-none"
             />
-            <span className="ml-2 text-sm">Backup Camera</span>
+            <span className="ml-2 text-sm font-bold uppercase">Backup Camera</span>
           </label>
-          <label className="inline-flex items-center">
+          <label className="inline-flex items-center cursor-pointer">
             <input
               type="checkbox"
               name="third_row"
               checked={formData.third_row}
               onChange={handleChange}
-              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+              className="w-5 h-5 border-2 border-black checked:bg-yellow-400 focus:ring-0 focus:outline-none"
             />
-            <span className="ml-2 text-sm">Third Row Seats</span>
+            <span className="ml-2 text-sm font-bold uppercase">Third Row Seats</span>
           </label>
         </div>
       </section>
 
       {/* Photos */}
-      <section className="bg-white p-6 rounded-lg shadow">
-        <h2 className="text-xl font-bold mb-4">Photos</h2>
+      <section className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-6">
+        <h2 className="text-2xl font-black uppercase tracking-tighter mb-6 border-b-2 border-black pb-2">
+          Photos
+        </h2>
         <PhotoUploader
           dealerId={dealer?.id}
           onUploadComplete={(urls) => setFormData(prev => ({ ...prev, photos: [...prev.photos, ...urls] }))}
@@ -711,15 +721,17 @@ const ListingForm = ({ initialData, isEditing = false }) => {
       </section>
 
       {/* Seller Notes */}
-      <section className="bg-white p-6 rounded-lg shadow">
-        <h2 className="text-xl font-bold mb-4">Seller Notes</h2>
+      <section className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-6">
+        <h2 className="text-2xl font-black uppercase tracking-tighter mb-6 border-b-2 border-black pb-2">
+          Seller Notes
+        </h2>
         <textarea
           name="seller_notes"
           rows="4"
           value={formData.seller_notes}
           onChange={handleChange}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
           placeholder="Any additional information for buyers..."
+          className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
         />
       </section>
 
@@ -728,14 +740,14 @@ const ListingForm = ({ initialData, isEditing = false }) => {
         <button
           type="button"
           onClick={() => navigate(-1)}
-          className="px-6 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          className="px-8 py-3 border-2 border-black bg-white font-black uppercase hover:bg-black hover:text-white transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
         >
           Cancel
         </button>
         <button
           type="submit"
           disabled={loading}
-          className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
+          className="px-8 py-3 border-2 border-black bg-yellow-400 font-black uppercase hover:bg-black hover:text-white transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading ? 'Saving...' : isEditing ? 'Update Listing' : 'Create Listing'}
         </button>

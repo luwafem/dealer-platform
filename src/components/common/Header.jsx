@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import NotificationBell from './NotificationBell';
-import { Car, LogOut, User, LayoutDashboard, CreditCard, Shield, ChevronDown, Sparkles, AlertTriangle } from 'lucide-react';
+import { Car, LogOut, User, LayoutDashboard, CreditCard, Shield, ChevronDown, Plus, AlertTriangle } from 'lucide-react';
 
 const Header = () => {
   const { user, dealer, isAdmin, signOut } = useAuth();
@@ -27,28 +27,27 @@ const Header = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-zinc-200">
-      <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+    <header className="sticky top-0 z-50 bg-white border-b-2 border-black">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
         
-        {/* Logo */}
-        <Link to="/" className="flex items-center gap-3 shrink-0">
-          <div className="bg-zinc-900 p-2 rounded-xl text-white shadow-lg shadow-zinc-200">
-            <Car size={20} />
+        {/* Logo - Bold & Boxy */}
+        <Link to="/" className="flex items-center group">
+          <div className="bg-black p-2 border-2 border-black group-hover:bg-yellow-400 transition-colors">
+            <Car size={22} className="text-white group-hover:text-black" />
           </div>
-          <span className="font-bold text-lg tracking-tight text-zinc-900">AutoDealer</span>
+          <span className="font-black text-2xl uppercase tracking-[ -0.05em] ml-3 hidden sm:block">
+            AutoDealer<span className="text-yellow-500 italic">®</span>
+          </span>
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-8">
-          <NavLink to="/search">Browse Inventory</NavLink>
-          <NavLink to="/distress" className="text-red-600 hover:text-red-700">
-            <AlertTriangle size={16} className="inline mr-1" />
-            Distress
-          </NavLink>
+        {/* Desktop Navigation - Minimal & Direct */}
+        <nav className="hidden lg:flex items-center space-x-1">
+          <NavLink to="/search">Inventory</NavLink>
+          <NavLink to="/distress" isUrgent>Distress</NavLink>
           {user && (
             <>
-              <NavLink to="/dashboard">Dashboard</NavLink>
-              <NavLink to="/subscriptions">Pricing</NavLink>
+              <NavLink to="/dashboard">Terminal</NavLink>
+              <NavLink to="/subscriptions">Access</NavLink>
             </>
           )}
         </nav>
@@ -56,52 +55,48 @@ const Header = () => {
         {/* Right Actions */}
         <div className="flex items-center gap-4">
           {user ? (
-            <div className="flex items-center gap-3">
-              <NotificationBell />
+            <div className="flex items-center gap-2 sm:gap-4">
+              <div className="border-r-2 border-black pr-2 sm:pr-4 h-10 flex items-center">
+                <NotificationBell />
+              </div>
               
-              {/* Profile Pill Container */}
               <div className="relative" ref={dropdownRef}>
                 <button 
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className={`flex items-center gap-2 pl-2 pr-4 py-1.5 rounded-full border transition-all duration-200 ${
-                    isDropdownOpen 
-                    ? 'bg-zinc-100 border-zinc-300 ring-4 ring-zinc-100' 
-                    : 'bg-zinc-50 border-zinc-200 hover:border-zinc-300'
+                  className={`flex items-center gap-3 p-1 border-2 border-black transition-all ${
+                    isDropdownOpen ? 'bg-yellow-400 shadow-none translate-x-[2px] translate-y-[2px]' : 'bg-white shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
                   }`}
                 >
-                  <div className="w-7 h-7 bg-zinc-900 rounded-full flex items-center justify-center text-white text-[10px] font-bold">
+                  <div className="w-8 h-8 bg-black flex items-center justify-center text-white text-xs font-black">
                     {dealer?.business_name?.charAt(0) || 'A'}
                   </div>
-                  <span className="text-sm font-semibold text-zinc-700 hidden sm:block">
-                    {dealer?.business_name || 'Account'}
+                  <span className="text-xs font-black uppercase tracking-tighter hidden md:block">
+                    {dealer?.business_name || 'Dealer'}
                   </span>
-                  <ChevronDown size={14} className={`text-zinc-400 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                  <ChevronDown size={16} className={`mr-1 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
 
-                {/* Dropdown Menu */}
+                {/* Dropdown Menu - Sharp Box */}
                 {isDropdownOpen && (
-                  <div className="absolute right-0 top-[calc(100%+8px)] w-60 bg-white rounded-2xl shadow-2xl border border-zinc-100 py-2 animate-in fade-in zoom-in-95 duration-100">
-                    <div className="px-4 py-2 border-b border-zinc-50 mb-1">
-                      <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.15em]">Manage Account</p>
+                  <div className="absolute right-0 top-[calc(100%+10px)] w-64 bg-white border-2 border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] py-0 z-50">
+                    <div className="px-4 py-3 bg-black text-white">
+                      <p className="text-[10px] font-black uppercase tracking-[0.2em]">Dealer Control</p>
                     </div>
                     
-                    <DropdownLink to="/profile" onClick={() => setIsDropdownOpen(false)} icon={<User size={16} />}>Profile Settings</DropdownLink>
-                    <DropdownLink to="/dashboard" onClick={() => setIsDropdownOpen(false)} icon={<LayoutDashboard size={16} />}>Inventory Manager</DropdownLink>
-                    <DropdownLink to="/subscriptions" onClick={() => setIsDropdownOpen(false)} icon={<CreditCard size={16} />}>Billing & Plans</DropdownLink>
-                    
-                    {/* Distress Sales link */}
-                    <DropdownLink to="/distress" onClick={() => setIsDropdownOpen(false)} icon={<AlertTriangle size={16} />}>Distress Sales</DropdownLink>
-                    
-                    {isAdmin && (
-                      <DropdownLink to="/admin" onClick={() => setIsDropdownOpen(false)} icon={<Shield size={16} />}>Admin Control</DropdownLink>
-                    )}
-                    
-                    <div className="border-t border-zinc-50 mt-2 pt-2 px-2">
+                    <div className="divide-y-2 divide-black">
+                      <DropdownLink to="/profile" onClick={() => setIsDropdownOpen(false)} icon={<User size={16} />}>User Settings</DropdownLink>
+                      <DropdownLink to="/dashboard" onClick={() => setIsDropdownOpen(false)} icon={<LayoutDashboard size={16} />}>Market Dashboard</DropdownLink>
+                      <DropdownLink to="/subscriptions" onClick={() => setIsDropdownOpen(false)} icon={<CreditCard size={16} />}>Billing & Credits</DropdownLink>
+                      
+                      {isAdmin && (
+                        <DropdownLink to="/admin" onClick={() => setIsDropdownOpen(false)} icon={<Shield size={16} />}>Admin Terminal</DropdownLink>
+                      )}
+                      
                       <button
                         onClick={handleLogout}
-                        className="w-full text-left px-3 py-2.5 text-sm text-red-600 hover:bg-red-50 rounded-xl font-semibold flex items-center gap-3 transition-colors"
+                        className="w-full text-left px-4 py-3 text-xs font-black uppercase bg-red-500 text-white hover:bg-black transition-colors flex items-center gap-3"
                       >
-                        <LogOut size={16} /> Logout
+                        <LogOut size={16} strokeWidth={3} /> Sign Out
                       </button>
                     </div>
                   </div>
@@ -109,10 +104,12 @@ const Header = () => {
               </div>
             </div>
           ) : (
-            <div className="flex items-center gap-3">
-              <Link to="/login" className="text-sm font-semibold text-zinc-600 hover:text-zinc-900">Login</Link>
-              <Link to="/register" className="px-5 py-2.5 bg-zinc-900 text-white text-sm font-bold rounded-xl hover:bg-zinc-800 transition-all flex items-center gap-2 shadow-lg shadow-zinc-200">
-                <Sparkles size={14} /> Get Started
+            <div className="flex items-center gap-2">
+              <Link to="/login" className="px-4 py-2 text-xs font-black uppercase tracking-widest hover:underline decoration-2 underline-offset-4">
+                Login
+              </Link>
+              <Link to="/register" className="px-5 py-2.5 bg-black text-white text-xs font-black uppercase tracking-widest border-2 border-black hover:bg-yellow-400 hover:text-black transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-1 active:translate-y-1">
+                Join Network
               </Link>
             </div>
           )}
@@ -122,10 +119,13 @@ const Header = () => {
   );
 };
 
-const NavLink = ({ to, children, className }) => (
-  <Link to={to} className={`text-sm font-semibold text-zinc-500 hover:text-zinc-900 transition-colors relative group ${className}`}>
+const NavLink = ({ to, children, className, isUrgent }) => (
+  <Link to={to} className={`
+    px-4 py-2 text-xs font-black uppercase tracking-[0.1em] border-2 border-transparent hover:border-black hover:bg-white transition-all
+    ${isUrgent ? 'text-red-600 hover:bg-red-50' : 'text-black'}
+    ${className}
+  `}>
     {children}
-    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-zinc-900 transition-all group-hover:w-full" />
   </Link>
 );
 
@@ -133,9 +133,9 @@ const DropdownLink = ({ to, children, icon, onClick }) => (
   <Link 
     to={to} 
     onClick={onClick}
-    className="flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-700 hover:bg-zinc-50 transition-colors font-medium"
+    className="flex items-center gap-3 px-4 py-3 text-xs font-black uppercase tracking-tighter hover:bg-yellow-400 transition-colors group"
   >
-    <span className="text-zinc-400">{icon}</span>
+    <span className="text-black">{icon}</span>
     {children}
   </Link>
 );

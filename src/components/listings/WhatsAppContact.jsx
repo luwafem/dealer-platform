@@ -11,18 +11,19 @@ const WhatsAppContact = ({ seller, listing }) => {
 
   const handleContactClick = async () => {
     if (!user) {
-      toast.error('Please login to contact seller');
+      toast.error('ACCESS DENIED: Please login to contact seller');
       return;
     }
 
     if (dealer?.id === seller.id) {
-      toast.error('You cannot contact your own listing');
+      toast.error('SYSTEM ERROR: Cannot contact own registry');
       return;
     }
 
     const result = await initiateContact(seller.id, listing.id);
     if (result.success) {
-      const whatsappLink = formatWhatsAppLink(seller.phone);
+      // Use the phone number from the seller object
+      const whatsappLink = formatWhatsAppLink(seller.phone_number || seller.phone);
       window.open(whatsappLink, '_blank');
     }
   };
@@ -31,10 +32,18 @@ const WhatsAppContact = ({ seller, listing }) => {
     <button
       onClick={handleContactClick}
       disabled={loading}
-      className="w-full flex items-center justify-center px-4 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50"
+      className="w-full flex items-center justify-center gap-3 px-4 py-4 
+                 bg-emerald-400 text-black border-4 border-black 
+                 font-black uppercase italic tracking-tighter text-sm
+                 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] 
+                 hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] 
+                 active:bg-emerald-500 transition-all 
+                 disabled:opacity-50 disabled:cursor-not-allowed"
     >
-      <MessageCircle className="w-5 h-5 mr-2" />
-      {loading ? 'Processing...' : 'Contact Seller via WhatsApp'}
+      <MessageCircle size={20} strokeWidth={3} />
+      <span>
+        {loading ? 'Transmitting...' : 'Initiate WhatsApp Contact'}
+      </span>
     </button>
   );
 };

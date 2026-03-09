@@ -12,21 +12,22 @@ import {
 } from 'lucide-react';
 
 const getIcon = (type) => {
+  const iconProps = { size: 20, strokeWidth: 2, className: 'text-black' };
   switch (type) {
     case 'badge':
-      return <Award className="w-5 h-5 text-yellow-500" />;
+      return <Award {...iconProps} />;
     case 'payment':
-      return <CreditCard className="w-5 h-5 text-green-500" />;
+      return <CreditCard {...iconProps} />;
     case 'match':
-      return <Bell className="w-5 h-5 text-blue-500" />;
+      return <Bell {...iconProps} />;
     case 'credit_low':
-      return <AlertTriangle className="w-5 h-5 text-orange-500" />;
+      return <AlertTriangle {...iconProps} />;
     case 'subscription_expiring':
-      return <AlertTriangle className="w-5 h-5 text-red-500" />;
+      return <AlertTriangle {...iconProps} />;
     case 'sold':
-      return <CheckCircle className="w-5 h-5 text-green-500" />;
+      return <CheckCircle {...iconProps} />;
     default:
-      return <Bell className="w-5 h-5 text-gray-500" />;
+      return <Bell {...iconProps} />;
   }
 };
 
@@ -48,19 +49,23 @@ const NotificationItem = ({ notification, onClose }) => {
   return (
     <div
       onClick={handleClick}
-      className={`px-4 py-3 border-b hover:bg-gray-50 cursor-pointer ${
-        !notification.read ? 'bg-blue-50' : ''
+      className={`px-4 py-3 border-b-2 border-black hover:bg-yellow-100 cursor-pointer ${
+        !notification.read ? 'bg-yellow-50' : 'bg-white'
       }`}
     >
       <div className="flex items-start space-x-3">
-        <div className="flex-shrink-0">{getIcon(notification.type)}</div>
+        <div className="flex-shrink-0 mt-0.5">{getIcon(notification.type)}</div>
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium text-gray-900">{notification.title}</p>
-          <p className="text-sm text-gray-600 line-clamp-2">{notification.message}</p>
-          <p className="text-xs text-gray-400 mt-1">{timeAgo(notification.created_at)}</p>
+          <p className="text-sm font-black uppercase tracking-tighter text-black">
+            {notification.title}
+          </p>
+          <p className="text-sm font-bold text-gray-800 line-clamp-2">
+            {notification.message}
+          </p>
+          <p className="text-xs font-medium mt-1">{timeAgo(notification.created_at)}</p>
         </div>
         {!notification.read && (
-          <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+          <div className="w-2 h-2 bg-black border-2 border-black shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]"></div>
         )}
       </div>
     </div>

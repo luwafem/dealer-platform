@@ -7,6 +7,11 @@ const DistressPage = () => {
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Scroll to top on mount
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   useEffect(() => {
     const loadDistress = async () => {
       try {
@@ -22,15 +27,23 @@ const DistressPage = () => {
   }, []);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="flex items-center mb-6">
-        <AlertTriangle className="w-8 h-8 text-red-500 mr-3" />
-        <h1 className="text-2xl font-bold">Distress Sales</h1>
+    <div className="min-h-screen bg-[#f4f4f2] text-[#1a1a1a] selection:bg-yellow-300 py-12 px-4">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="mb-8 border-b-2 border-black pb-4">
+          <div className="flex items-center gap-4 mb-2">
+            <h1 className="text-5xl md:text-6xl font-black uppercase tracking-tighter leading-none">
+              Distress <br /> Sales
+            </h1>
+          </div>
+          <p className="text-lg font-medium border-l-4 border-black pl-4">
+            Urgent sales – sellers are motivated to sell quickly
+          </p>
+        </div>
+
+        {/* Results */}
+        <ListingGrid listings={listings} loading={loading} />
       </div>
-      <p className="text-gray-600 mb-8">
-        These listings are marked as urgent sales – sellers are motivated to sell quickly.
-      </p>
-      <ListingGrid listings={listings} loading={loading} />
     </div>
   );
 };

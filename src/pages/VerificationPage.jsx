@@ -12,6 +12,11 @@ const VerificationPage = () => {
   const [uploading, setUploading] = useState(false);
   const [documents, setDocuments] = useState([]);
 
+  // Scroll to top on mount
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   useEffect(() => {
     loadRequest();
   }, []);
@@ -59,16 +64,26 @@ const VerificationPage = () => {
     }
   };
 
-  if (loading) return <div className="text-center py-8">Loading...</div>;
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#f4f4f2] flex justify-center items-center">
+        <div className="border-2 border-black p-8 bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+          <div className="animate-spin rounded-none h-12 w-12 border-2 border-black border-t-transparent"></div>
+        </div>
+      </div>
+    );
+  }
 
   // If already verified
   if (dealer?.verified) {
     return (
-      <div className="max-w-2xl mx-auto px-4 py-8">
-        <div className="bg-green-50 border border-green-200 rounded-lg p-6 text-center">
-          <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-green-800 mb-2">You are Verified!</h1>
-          <p className="text-green-700">Your account has been verified. You have a verified badge.</p>
+      <div className="min-h-screen bg-[#f4f4f2] text-[#1a1a1a] selection:bg-yellow-300 py-12 px-4">
+        <div className="max-w-2xl mx-auto">
+          <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-8 text-center">
+            <CheckCircle size={64} strokeWidth={2} className="mx-auto mb-4" />
+            <h1 className="text-3xl font-black uppercase tracking-tighter mb-2">You are Verified!</h1>
+            <p className="font-bold">Your account has been verified. You have a verified badge.</p>
+          </div>
         </div>
       </div>
     );
@@ -77,11 +92,13 @@ const VerificationPage = () => {
   // If request pending
   if (request && request.status === 'pending') {
     return (
-      <div className="max-w-2xl mx-auto px-4 py-8">
-        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 text-center">
-          <Clock className="w-16 h-16 text-yellow-500 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-yellow-800 mb-2">Verification Pending</h1>
-          <p className="text-yellow-700">Your verification request is being reviewed by admin.</p>
+      <div className="min-h-screen bg-[#f4f4f2] text-[#1a1a1a] selection:bg-yellow-300 py-12 px-4">
+        <div className="max-w-2xl mx-auto">
+          <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-8 text-center">
+            <Clock size={64} strokeWidth={2} className="mx-auto mb-4" />
+            <h1 className="text-3xl font-black uppercase tracking-tighter mb-2">Verification Pending</h1>
+            <p className="font-bold">Your verification request is being reviewed by admin.</p>
+          </div>
         </div>
       </div>
     );
@@ -89,64 +106,80 @@ const VerificationPage = () => {
 
   // If rejected or no request
   return (
-    <div className="max-w-2xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-6">Apply for Verification</h1>
-      <div className="bg-white rounded-lg shadow p-6">
-        <p className="text-gray-600 mb-4">
-          To get a verified badge, please upload business documents (CAC, tax ID, etc.).
-        </p>
+    <div className="min-h-screen bg-[#f4f4f2] text-[#1a1a1a] selection:bg-yellow-300 py-12 px-4">
+      <div className="max-w-2xl mx-auto">
+        {/* Header */}
+        <div className="mb-8 border-b-2 border-black pb-4">
+          <h1 className="text-5xl md:text-6xl font-black uppercase tracking-tighter leading-none">
+            Apply for <br /> Verification
+          </h1>
+          <p className="text-lg font-medium mt-2 border-l-4 border-black pl-4">
+            Get your verified badge
+          </p>
+        </div>
 
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Upload Documents
-          </label>
-          <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
-            <input
-              type="file"
-              multiple
-              accept=".pdf,.jpg,.jpeg,.png"
-              onChange={handleFileUpload}
-              className="hidden"
-              id="doc-upload"
-            />
-            <label htmlFor="doc-upload" className="cursor-pointer">
-              <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-              <span className="text-blue-600 hover:underline">Click to upload</span>
-              <span className="text-gray-500"> or drag and drop</span>
+        <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-6">
+          <p className="font-bold mb-4">
+            To get a verified badge, please upload business documents (CAC, tax ID, etc.).
+          </p>
+
+          <div className="mb-6">
+            <label className="block text-sm font-black uppercase mb-2">
+              Upload Documents
             </label>
-            <p className="text-xs text-gray-400 mt-1">PDF, JPG, PNG (max 5MB each)</p>
+            <div className="border-2 border-black p-4 text-center bg-white">
+              <input
+                type="file"
+                multiple
+                accept=".pdf,.jpg,.jpeg,.png"
+                onChange={handleFileUpload}
+                className="hidden"
+                id="doc-upload"
+              />
+              <label htmlFor="doc-upload" className="cursor-pointer block">
+                <Upload size={32} strokeWidth={2} className="mx-auto mb-2" />
+                <span className="font-black uppercase underline">Click to upload</span>
+                <span className="font-bold"> or drag and drop</span>
+              </label>
+              <p className="text-xs font-bold mt-1">PDF, JPG, PNG (max 5MB each)</p>
+            </div>
+
+            {documents.length > 0 && (
+              <div className="mt-4">
+                <h3 className="font-black uppercase mb-2">Uploaded ({documents.length})</h3>
+                <ul className="space-y-1">
+                  {documents.map((url, idx) => (
+                    <li key={idx} className="text-sm font-bold">
+                      <a
+                        href={url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="underline hover:no-underline"
+                      >
+                        Document {idx + 1}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
 
-          {documents.length > 0 && (
-            <div className="mt-4">
-              <h3 className="font-medium mb-2">Uploaded ({documents.length})</h3>
-              <ul className="space-y-1">
-                {documents.map((url, idx) => (
-                  <li key={idx} className="text-sm text-gray-600">
-                    <a href={url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                      Document {idx + 1}
-                    </a>
-                  </li>
-                ))}
-              </ul>
+          <button
+            onClick={handleSubmit}
+            disabled={documents.length === 0 || uploading}
+            className="w-full border-2 border-black bg-yellow-400 text-black px-4 py-2 font-black uppercase hover:bg-black hover:text-white transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Submit Verification Request
+          </button>
+
+          {request && request.status === 'rejected' && (
+            <div className="mt-4 p-3 border-2 border-black bg-red-100">
+              <p className="font-black uppercase">Previous request rejected</p>
+              <p className="text-sm font-bold">{request.admin_notes || 'No notes'}</p>
             </div>
           )}
         </div>
-
-        <button
-          onClick={handleSubmit}
-          disabled={documents.length === 0 || uploading}
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:opacity-50"
-        >
-          Submit Verification Request
-        </button>
-
-        {request && request.status === 'rejected' && (
-          <div className="mt-4 p-3 bg-red-50 text-red-700 rounded">
-            <p className="font-medium">Previous request rejected</p>
-            <p className="text-sm">{request.admin_notes || 'No notes'}</p>
-          </div>
-        )}
       </div>
     </div>
   );

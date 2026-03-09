@@ -35,36 +35,38 @@ const ReportButton = ({ listingId }) => {
     <>
       <button
         onClick={() => setShowModal(true)}
-        className="flex items-center text-gray-500 hover:text-red-600 text-sm"
+        className="flex items-center gap-1 text-sm font-bold uppercase hover:text-red-600 transition-colors border-2 border-transparent hover:border-red-600 px-2 py-1"
       >
-        <Flag size={16} className="mr-1" />
+        <Flag size={16} strokeWidth={2} />
         Report
       </button>
 
       {showModal && (
         <div className="fixed inset-0 z-50 overflow-y-auto">
           <div className="flex items-center justify-center min-h-screen px-4">
-            <div className="fixed inset-0 bg-black bg-opacity-50" onClick={() => setShowModal(false)} />
-            <div className="relative bg-white rounded-lg max-w-md w-full p-6">
+            <div className="fixed inset-0 bg-black bg-opacity-70" onClick={() => setShowModal(false)} />
+            <div className="relative bg-white border-2 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] max-w-md w-full p-6">
               <button
                 onClick={() => setShowModal(false)}
-                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+                className="absolute top-4 right-4 border-2 border-black p-1 hover:bg-black hover:text-white transition-colors"
               >
-                <X size={20} />
+                <X size={20} strokeWidth={2} />
               </button>
 
-              <h2 className="text-xl font-bold mb-4">Report Listing</h2>
+              <h2 className="text-2xl font-black uppercase tracking-tighter mb-4 border-b-2 border-black pb-2">
+                Report Listing
+              </h2>
 
               <form onSubmit={handleReport}>
                 <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-black uppercase mb-1">
                     Reason *
                   </label>
                   <select
                     value={reason}
                     onChange={(e) => setReason(e.target.value)}
                     required
-                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                    className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
                   >
                     <option value="">Select a reason</option>
                     <option value="spam">Spam</option>
@@ -76,14 +78,14 @@ const ReportButton = ({ listingId }) => {
                 </div>
 
                 <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-black uppercase mb-1">
                     Description (optional)
                   </label>
                   <textarea
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     rows="3"
-                    className="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                    className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
                     placeholder="Provide more details..."
                   />
                 </div>
@@ -91,7 +93,7 @@ const ReportButton = ({ listingId }) => {
                 <button
                   type="submit"
                   disabled={submitting || !reason}
-                  className="w-full bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 disabled:opacity-50"
+                  className="w-full border-2 border-black bg-yellow-400 text-black px-4 py-3 font-black uppercase hover:bg-black hover:text-white transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {submitting ? 'Submitting...' : 'Submit Report'}
                 </button>

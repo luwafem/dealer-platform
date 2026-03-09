@@ -35,50 +35,61 @@ const AdminFeedback = () => {
     }
   };
 
-  if (loading) return <div className="text-center py-8">Loading...</div>;
+  if (loading) {
+    return (
+      <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-6">
+        <div className="text-center font-bold">Loading...</div>
+      </div>
+    );
+  }
 
   return (
-    <div className="bg-white rounded-lg shadow overflow-hidden">
-      <div className="px-6 py-4 border-b flex items-center">
-        <MessageSquare className="w-5 h-5 text-blue-500 mr-2" />
-        <h2 className="text-lg font-semibold">User Feedback</h2>
+    <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] overflow-hidden">
+      {/* Header */}
+      <div className="px-6 py-4 border-b-2 border-black flex items-center">
+        <MessageSquare size={20} strokeWidth={2} className="mr-2" />
+        <h2 className="text-2xl font-black uppercase tracking-tighter">User Feedback</h2>
       </div>
+
       {feedback.length === 0 ? (
-        <div className="p-6 text-center text-gray-500">No feedback yet</div>
+        <div className="p-6 text-center font-bold">No feedback yet</div>
       ) : (
-        <div className="divide-y">
+        <div className="divide-y-2 divide-black">
           {feedback.map(item => (
-            <div key={item.id} className="p-4 hover:bg-gray-50">
-              <div className="flex justify-between items-start">
-                <div>
-                  <span className={`inline-block px-2 py-1 text-xs rounded-full ${
-                    item.type === 'bug' ? 'bg-red-100 text-red-800' :
-                    item.type === 'feature' ? 'bg-green-100 text-green-800' :
-                    item.type === 'suggestion' ? 'bg-blue-100 text-blue-800' :
-                    'bg-gray-100 text-gray-800'
+            <div key={item.id} className="p-4 hover:bg-yellow-100 transition-colors">
+              <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+                {/* Content */}
+                <div className="flex-1">
+                  <span className={`inline-block border-2 border-black px-2 py-1 text-xs font-black uppercase ${
+                    item.type === 'bug' ? 'bg-red-100 text-black' :
+                    item.type === 'feature' ? 'bg-green-100 text-black' :
+                    item.type === 'suggestion' ? 'bg-blue-100 text-black' :
+                    'bg-gray-100 text-black'
                   }`}>
                     {item.type}
                   </span>
-                  <p className="mt-2 text-gray-800">{item.message}</p>
-                  <div className="mt-2 text-xs text-gray-500">
+                  <p className="mt-2 font-bold">{item.message}</p>
+                  <div className="mt-2 text-xs font-medium">
                     {item.name && <span>{item.name} • </span>}
                     {timeAgo(item.created_at)}
                   </div>
                 </div>
-                <div className="flex space-x-2">
+
+                {/* Actions */}
+                <div className="flex space-x-2 md:flex-shrink-0">
                   <button
                     onClick={() => handleStatusChange(item.id, 'addressed')}
-                    className="text-green-600 hover:text-green-800"
+                    className="border-2 border-black p-1.5 hover:bg-black hover:text-white transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
                     title="Mark as addressed"
                   >
-                    <CheckCircle size={18} />
+                    <CheckCircle size={18} strokeWidth={2} />
                   </button>
                   <button
                     onClick={() => handleStatusChange(item.id, 'read')}
-                    className="text-blue-600 hover:text-blue-800"
+                    className="border-2 border-black p-1.5 hover:bg-black hover:text-white transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
                     title="Mark as read"
                   >
-                    <MessageSquare size={18} />
+                    <MessageSquare size={18} strokeWidth={2} />
                   </button>
                 </div>
               </div>

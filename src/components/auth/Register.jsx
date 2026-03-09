@@ -42,28 +42,29 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#f4f4f2] text-[#1a1a1a] selection:bg-yellow-300 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Register as a Dealer
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Or{' '}
-            <Link to="/login" className="font-medium text-blue-600 hover:text-blue-500">
-              sign in to existing account
-            </Link>
+        {/* Header */}
+        <div className="border-b-2 border-black pb-4">
+          <h1 className="text-5xl font-black uppercase tracking-tighter leading-none">
+            Register
+          </h1>
+          <p className="text-lg font-medium mt-2 border-l-4 border-black pl-4">
+            Create a dealer account
           </p>
         </div>
+
+        {/* Form */}
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4">
+            {/* Business Name */}
             <div>
-              <label htmlFor="business_name" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="business_name" className="block text-sm font-black uppercase mb-1">
                 Business Name
               </label>
-              <div className="mt-1 relative rounded-md shadow-sm">
+              <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Store className="h-5 w-5 text-gray-400" />
+                  <Store size={20} strokeWidth={2} className="text-black" />
                 </div>
                 <input
                   type="text"
@@ -72,19 +73,20 @@ const Register = () => {
                   required
                   value={formData.business_name}
                   onChange={handleChange}
-                  className="focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
+                  className="w-full border-2 border-black p-3 pl-10 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
                   placeholder="Your dealership name"
                 />
               </div>
             </div>
 
+            {/* Phone */}
             <div>
-              <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="phone" className="block text-sm font-black uppercase mb-1">
                 Phone Number
               </label>
-              <div className="mt-1 relative rounded-md shadow-sm">
+              <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Phone className="h-5 w-5 text-gray-400" />
+                  <Phone size={20} strokeWidth={2} className="text-black" />
                 </div>
                 <input
                   type="tel"
@@ -93,19 +95,20 @@ const Register = () => {
                   required
                   value={formData.phone}
                   onChange={handleChange}
-                  className="focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
+                  className="w-full border-2 border-black p-3 pl-10 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
                   placeholder="08012345678"
                 />
               </div>
             </div>
 
+            {/* Email */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="email" className="block text-sm font-black uppercase mb-1">
                 Email address
               </label>
-              <div className="mt-1 relative rounded-md shadow-sm">
+              <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-gray-400" />
+                  <Mail size={20} strokeWidth={2} className="text-black" />
                 </div>
                 <input
                   type="email"
@@ -115,19 +118,20 @@ const Register = () => {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
+                  className="w-full border-2 border-black p-3 pl-10 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
                   placeholder="you@example.com"
                 />
               </div>
             </div>
 
+            {/* Password */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="password" className="block text-sm font-black uppercase mb-1">
                 Password
               </label>
-              <div className="mt-1 relative rounded-md shadow-sm">
+              <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-gray-400" />
+                  <Lock size={20} strokeWidth={2} className="text-black" />
                 </div>
                 <input
                   type="password"
@@ -137,19 +141,20 @@ const Register = () => {
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  className="focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
+                  className="w-full border-2 border-black p-3 pl-10 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
                   placeholder="••••••••"
                 />
               </div>
             </div>
 
+            {/* Confirm Password */}
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="confirmPassword" className="block text-sm font-black uppercase mb-1">
                 Confirm Password
               </label>
-              <div className="mt-1 relative rounded-md shadow-sm">
+              <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-gray-400" />
+                  <Lock size={20} strokeWidth={2} className="text-black" />
                 </div>
                 <input
                   type="password"
@@ -159,26 +164,33 @@ const Register = () => {
                   required
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className="focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
+                  className="w-full border-2 border-black p-3 pl-10 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
                   placeholder="••••••••"
                 />
               </div>
             </div>
           </div>
 
+          {/* Submit Button */}
           <div>
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
+              className="w-full border-2 border-black bg-yellow-400 text-black px-6 py-3 font-black uppercase hover:bg-black hover:text-white transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
             >
-              <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                <User className="h-5 w-5 text-blue-500 group-hover:text-blue-400" />
-              </span>
+              <User size={20} strokeWidth={2} className="mr-2" />
               {loading ? 'Registering...' : 'Register'}
             </button>
           </div>
         </form>
+
+        {/* Login link */}
+        <p className="text-center text-sm font-bold">
+          Already have an account?{' '}
+          <Link to="/login" className="underline hover:no-underline hover:text-yellow-600">
+            Sign in
+          </Link>
+        </p>
       </div>
     </div>
   );

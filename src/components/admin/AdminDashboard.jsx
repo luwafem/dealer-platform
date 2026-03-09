@@ -18,6 +18,11 @@ const AdminDashboard = () => {
   });
   const [loading, setLoading] = useState(true);
 
+  // Scroll to top on mount
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   useEffect(() => {
     loadStats();
   }, []);
@@ -68,82 +73,82 @@ const AdminDashboard = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div className="min-h-screen bg-[#f4f4f2] flex justify-center items-center">
+        <div className="border-2 border-black p-8 bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+          <div className="animate-spin rounded-none h-12 w-12 border-2 border-black border-t-transparent"></div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <h1 className="text-2xl font-bold mb-6">Admin Dashboard</h1>
+    <div className="min-h-screen bg-[#f4f4f2] text-[#1a1a1a] selection:bg-yellow-300 py-12 px-4">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="mb-8 border-b-2 border-black pb-4">
+          <h1 className="text-5xl md:text-6xl font-black uppercase tracking-tighter leading-none">
+            Admin <br /> Dashboard
+          </h1>
+          <p className="text-lg font-medium mt-2 border-l-4 border-black pl-4">
+            Platform overview and moderation
+          </p>
+        </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
-        <div className="bg-white p-4 rounded-lg shadow">
-          <div className="flex items-center justify-between">
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 mb-8">
+          <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-4 flex justify-between items-center">
             <div>
-              <p className="text-sm text-gray-500">Dealers</p>
-              <p className="text-2xl font-bold">{stats.totalDealers}</p>
+              <p className="text-sm font-bold uppercase">Dealers</p>
+              <p className="text-3xl font-black">{stats.totalDealers}</p>
             </div>
-            <Users className="w-8 h-8 text-blue-500" />
+            <Users size={32} strokeWidth={2} />
+          </div>
+          <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-4 flex justify-between items-center">
+            <div>
+              <p className="text-sm font-bold uppercase">Active Listings</p>
+              <p className="text-3xl font-black">{stats.activeListings}</p>
+            </div>
+            <Car size={32} strokeWidth={2} />
+          </div>
+          <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-4 flex justify-between items-center">
+            <div>
+              <p className="text-sm font-bold uppercase">Sold Today</p>
+              <p className="text-3xl font-black">{stats.soldToday}</p>
+            </div>
+            <CheckCircle size={32} strokeWidth={2} />
+          </div>
+          <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-4 flex justify-between items-center">
+            <div>
+              <p className="text-sm font-bold uppercase">Revenue Today</p>
+              <p className="text-3xl font-black">{formatNaira(stats.revenueToday)}</p>
+            </div>
+            <TrendingUp size={32} strokeWidth={2} />
+          </div>
+          <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-4 flex justify-between items-center">
+            <div>
+              <p className="text-sm font-bold uppercase">Flagged</p>
+              <p className="text-3xl font-black">{stats.flaggedListings}</p>
+            </div>
+            <AlertTriangle size={32} strokeWidth={2} />
+          </div>
+          <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-4 flex justify-between items-center">
+            <div>
+              <p className="text-sm font-bold uppercase">Verifications</p>
+              <p className="text-3xl font-black">{stats.pendingVerifications}</p>
+            </div>
+            <Users size={32} strokeWidth={2} />
           </div>
         </div>
-        <div className="bg-white p-4 rounded-lg shadow">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-500">Active Listings</p>
-              <p className="text-2xl font-bold">{stats.activeListings}</p>
-            </div>
-            <Car className="w-8 h-8 text-green-500" />
-          </div>
-        </div>
-        <div className="bg-white p-4 rounded-lg shadow">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-500">Sold Today</p>
-              <p className="text-2xl font-bold">{stats.soldToday}</p>
-            </div>
-            <CheckCircle className="w-8 h-8 text-purple-500" />
-          </div>
-        </div>
-        <div className="bg-white p-4 rounded-lg shadow">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-500">Revenue Today</p>
-              <p className="text-2xl font-bold">{formatNaira(stats.revenueToday)}</p>
-            </div>
-            <TrendingUp className="w-8 h-8 text-yellow-500" />
-          </div>
-        </div>
-        <div className="bg-white p-4 rounded-lg shadow">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-500">Flagged</p>
-              <p className="text-2xl font-bold">{stats.flaggedListings}</p>
-            </div>
-            <AlertTriangle className="w-8 h-8 text-red-500" />
-          </div>
-        </div>
-        <div className="bg-white p-4 rounded-lg shadow">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-500">Verifications</p>
-              <p className="text-2xl font-bold">{stats.pendingVerifications}</p>
-            </div>
-            <Users className="w-8 h-8 text-orange-500" />
-          </div>
-        </div>
-      </div>
 
-      {/* Flagged Listings */}
-      <div className="mt-8">
-        <FlaggedListings />
-      </div>
+        {/* Flagged Listings */}
+        <div className="mt-8">
+          <FlaggedListings />
+        </div>
 
-      {/* Verification Requests */}
-      <div className="mt-8">
-        <VerificationRequests />
+        {/* Verification Requests */}
+        <div className="mt-8">
+          <VerificationRequests />
+        </div>
       </div>
     </div>
   );

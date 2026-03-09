@@ -8,14 +8,9 @@ import { useNavigate, Link } from 'react-router-dom';
 import { 
   PlusCircle, 
   Car, 
-  TrendingUp, 
-  TrendingDown, 
-  Wallet,
-  Eye,
-  MessageCircle,
   CheckCircle,
-  XCircle,
-  Clock,
+  MessageCircle,
+  Eye,
   Star,
   Gauge
 } from 'lucide-react';
@@ -30,6 +25,11 @@ const SellerDashboard = () => {
   const [contacts, setContacts] = useState([]);
   const [trustScore, setTrustScore] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  // Scroll to top on mount
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     if (user && dealer) {
@@ -61,8 +61,10 @@ const SellerDashboard = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div className="min-h-screen bg-[#f4f4f2] flex justify-center items-center">
+        <div className="border-2 border-black p-8 bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+          <div className="animate-spin rounded-none h-12 w-12 border-2 border-black border-t-transparent"></div>
+        </div>
       </div>
     );
   }
@@ -80,229 +82,228 @@ const SellerDashboard = () => {
   const isUnlimited = maxListings === Infinity;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* Header */}
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Seller Dashboard</h1>
-        <div className="flex space-x-3">
-          <Link
-            to="/rate-transactions"
-            className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 flex items-center"
-          >
-            <Star size={20} className="mr-2" />
-            Rate Transactions
-          </Link>
-          <button
-            onClick={() => navigate('/add-listing')}
-            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 flex items-center"
-          >
-            <PlusCircle size={20} className="mr-2" />
-            Add New Listing
-          </button>
-        </div>
-      </div>
-
-      {/* Trust Score Card */}
-      <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg shadow p-6 mb-8">
-        <div className="flex items-center justify-between">
+    <div className="min-h-screen bg-[#f4f4f2] text-[#1a1a1a] selection:bg-yellow-300 py-12 px-4">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="mb-8 border-b-2 border-black pb-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h2 className="text-lg font-semibold text-gray-800">Your Trust Score</h2>
-            <div className="flex items-center mt-2">
-              <div className="flex items-center mr-4">
-                <Star className="w-5 h-5 text-yellow-400 fill-current mr-1" />
-                <span className="text-sm text-gray-600">{dealer.rating || 0} average</span>
-              </div>
-              <div className="flex items-center">
-                <CheckCircle className="w-5 h-5 text-green-500 mr-1" />
-                <span className="text-sm text-gray-600">{dealer.paid_deals || 0} completed deals</span>
-              </div>
-            </div>
+            <h1 className="text-5xl md:text-6xl font-black uppercase tracking-tighter leading-none">
+              Seller <br /> Dashboard
+            </h1>
+            <p className="text-lg font-medium mt-2 border-l-4 border-black pl-4">
+              Manage your inventory and track performance
+            </p>
           </div>
-          <div className="text-right">
-            <span className="text-3xl font-bold text-blue-600">{trustScore || 0}%</span>
-            <p className="text-xs text-gray-500">Trust Score</p>
+          <div className="flex gap-3">
+            <Link
+              to="/rate-transactions"
+              className="border-2 border-black bg-black text-white px-6 py-3 font-black uppercase hover:bg-yellow-400 hover:text-black hover:border-black transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex items-center"
+            >
+              <Star size={20} className="mr-2" />
+              Rate Transactions
+            </Link>
+            <button
+              onClick={() => navigate('/add-listing')}
+              className="border-2 border-black bg-yellow-400 text-black px-6 py-3 font-black uppercase hover:bg-black hover:text-white transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex items-center"
+            >
+              <PlusCircle size={20} className="mr-2" />
+              Add Listing
+            </button>
           </div>
         </div>
-        <div className="w-full bg-gray-200 rounded-full h-2 mt-3">
-          <div
-            className="bg-blue-600 h-2 rounded-full"
-            style={{ width: `${trustScore || 0}%` }}
-          ></div>
-        </div>
-      </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8">
-        <div className="bg-white p-4 rounded-lg shadow">
-          <div className="flex items-center justify-between">
+        {/* Trust Score Card */}
+        <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-6 mb-8">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
-              <p className="text-sm text-gray-500">Active Listings</p>
-              <p className="text-2xl font-bold">{listingsUsed}</p>
+              <h2 className="text-2xl font-black uppercase tracking-tighter">Trust Score</h2>
+              <div className="flex flex-wrap gap-4 mt-2">
+                <div className="flex items-center">
+                  <Star className="w-5 h-5 text-black mr-1" strokeWidth={2} />
+                  <span className="font-bold uppercase text-sm">{dealer.rating || 0} avg</span>
+                </div>
+                <div className="flex items-center">
+                  <CheckCircle className="w-5 h-5 text-black mr-1" strokeWidth={2} />
+                  <span className="font-bold uppercase text-sm">{dealer.paid_deals || 0} completed</span>
+                </div>
+              </div>
             </div>
-            <Car className="w-8 h-8 text-blue-500" />
+            <div className="text-right">
+              <span className="text-5xl font-black">{trustScore || 0}%</span>
+              <p className="text-xs font-bold uppercase">Score</p>
+            </div>
+          </div>
+          <div className="w-full bg-gray-300 h-4 mt-3 border-2 border-black">
+            <div
+              className="bg-black h-full"
+              style={{ width: `${trustScore || 0}%` }}
+            ></div>
           </div>
         </div>
-        <div className="bg-white p-4 rounded-lg shadow">
-          <div className="flex items-center justify-between">
+
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
+          <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-4 flex justify-between items-center">
             <div>
-              <p className="text-sm text-gray-500">Sold Cars</p>
-              <p className="text-2xl font-bold">{soldListings.length}</p>
+              <p className="text-sm font-bold uppercase">Active</p>
+              <p className="text-3xl font-black">{listingsUsed}</p>
             </div>
-            <CheckCircle className="w-8 h-8 text-green-500" />
+            <Car size={32} strokeWidth={2} />
           </div>
-        </div>
-        <div className="bg-white p-4 rounded-lg shadow">
-          <div className="flex items-center justify-between">
+          <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-4 flex justify-between items-center">
             <div>
-              <p className="text-sm text-gray-500">Inquiries Received</p>
-              <p className="text-2xl font-bold">{contactsAsSeller}</p>
+              <p className="text-sm font-bold uppercase">Sold</p>
+              <p className="text-3xl font-black">{soldListings.length}</p>
             </div>
-            <MessageCircle className="w-8 h-8 text-purple-500" />
+            <CheckCircle size={32} strokeWidth={2} />
           </div>
-        </div>
-        <div className="bg-white p-4 rounded-lg shadow">
-          <div className="flex items-center justify-between">
+          <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-4 flex justify-between items-center">
             <div>
-              <p className="text-sm text-gray-500">Total Views</p>
-              <p className="text-2xl font-bold">
+              <p className="text-sm font-bold uppercase">Inquiries</p>
+              <p className="text-3xl font-black">{contactsAsSeller}</p>
+            </div>
+            <MessageCircle size={32} strokeWidth={2} />
+          </div>
+          <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-4 flex justify-between items-center">
+            <div>
+              <p className="text-sm font-bold uppercase">Views</p>
+              <p className="text-3xl font-black">
                 {activeListings.reduce((sum, l) => sum + (l.views || 0), 0)}
               </p>
             </div>
-            <Eye className="w-8 h-8 text-yellow-500" />
+            <Eye size={32} strokeWidth={2} />
           </div>
-        </div>
-        <div className="bg-white p-4 rounded-lg shadow">
-          <div className="flex items-center justify-between">
+          <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-4 flex justify-between items-center">
             <div>
-              <p className="text-sm text-gray-500">Listings Used</p>
-              <p className="text-2xl font-bold">
+              <p className="text-sm font-bold uppercase">Used</p>
+              <p className="text-3xl font-black">
                 {listingsUsed} / {isUnlimited ? '∞' : maxListings}
               </p>
               {!isUnlimited && remaining >= 0 && (
-                <p className="text-xs text-gray-500">{remaining} remaining</p>
+                <p className="text-xs font-bold">{remaining} left</p>
               )}
             </div>
-            <Gauge className="w-8 h-8 text-orange-500" />
+            <Gauge size={32} strokeWidth={2} />
           </div>
         </div>
-      </div>
 
-      {/* Active Listings */}
-      <div className="bg-white rounded-lg shadow mt-8">
-        <div className="px-6 py-4 border-b flex justify-between items-center">
-          <h2 className="text-lg font-semibold">Active Listings</h2>
-          {activeListings.length > 0 && (
-            <Link to="/listings?status=active" className="text-sm text-blue-600 hover:underline">
-              View All
-            </Link>
+        {/* Active Listings */}
+        <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mt-8">
+          <div className="border-b-2 border-black px-6 py-4 flex justify-between items-center">
+            <h2 className="text-2xl font-black uppercase tracking-tighter">Active Listings</h2>
+            {activeListings.length > 0 && (
+              <Link to="/listings?status=active" className="font-bold uppercase underline hover:no-underline">
+                View All
+              </Link>
+            )}
+          </div>
+          {activeListings.length === 0 ? (
+            <div className="p-6 text-center font-bold">
+              No active listings. Click "Add Listing" to get started.
+            </div>
+          ) : (
+            <div className="divide-y-2 divide-black">
+              {activeListings.slice(0, 5).map(listing => (
+                <div key={listing.id} className="p-4 flex items-center hover:bg-yellow-100 transition-colors">
+                  <div className="w-16 h-16 bg-gray-200 border-2 border-black mr-4 flex-shrink-0">
+                    {listing.photos?.[0] ? (
+                      <img src={listing.photos[0]} alt="" className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <Car size={24} />
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-black uppercase">
+                      {listing.make} {listing.model} {listing.year}
+                    </h3>
+                    <p className="text-sm font-bold">{listing.location} • {listing.views} views</p>
+                  </div>
+                  <div className="text-right mr-4">
+                    <p className="font-black">{formatNaira(listing.price)}</p>
+                    <p className="text-xs font-bold">Posted {timeAgo(listing.created_at)}</p>
+                  </div>
+                  <Link
+                    to={`/listings/${listing.id}`}
+                    className="border-2 border-black px-4 py-2 font-bold uppercase hover:bg-black hover:text-white transition-colors"
+                  >
+                    View
+                  </Link>
+                </div>
+              ))}
+            </div>
           )}
         </div>
-        {activeListings.length === 0 ? (
-          <div className="p-6 text-center text-gray-500">
-            You have no active listings. Click "Add New Listing" to get started.
-          </div>
-        ) : (
-          <div className="divide-y">
-            {activeListings.slice(0, 5).map(listing => (
-              <div key={listing.id} className="p-4 flex items-center hover:bg-gray-50">
-                <div className="w-16 h-16 bg-gray-200 rounded mr-4 flex-shrink-0">
-                  {listing.photos?.[0] ? (
-                    <img src={listing.photos[0]} alt="" className="w-full h-full object-cover rounded" />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-gray-400">
-                      <Car size={24} />
-                    </div>
-                  )}
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-medium">
-                    {listing.make} {listing.model} {listing.year}
-                  </h3>
-                  <p className="text-sm text-gray-500">{listing.location} • {listing.views} views</p>
-                </div>
-                <div className="text-right mr-4">
-                  <p className="font-bold text-blue-600">{formatNaira(listing.price)}</p>
-                  <p className="text-xs text-gray-500">Posted {timeAgo(listing.created_at)}</p>
-                </div>
-                <Link
-                  to={`/listings/${listing.id}`}
-                  className="text-blue-600 hover:text-blue-800 text-sm"
-                >
-                  View
-                </Link>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
 
-      {/* Sold Listings */}
-      <div className="bg-white rounded-lg shadow mt-8">
-        <div className="px-6 py-4 border-b">
-          <h2 className="text-lg font-semibold">Recently Sold</h2>
-        </div>
-        {soldListings.length === 0 ? (
-          <div className="p-6 text-center text-gray-500">
-            No sold cars yet.
+        {/* Sold Listings */}
+        <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mt-8">
+          <div className="border-b-2 border-black px-6 py-4">
+            <h2 className="text-2xl font-black uppercase tracking-tighter">Recently Sold</h2>
           </div>
-        ) : (
-          <div className="divide-y">
-            {soldListings.slice(0, 5).map(listing => (
-              <div key={listing.id} className="p-4 flex items-center hover:bg-gray-50">
-                <div className="w-16 h-16 bg-gray-200 rounded mr-4 flex-shrink-0">
-                  {listing.photos?.[0] ? (
-                    <img src={listing.photos[0]} alt="" className="w-full h-full object-cover rounded" />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-gray-400">
-                      <Car size={24} />
-                    </div>
-                  )}
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-medium">
-                    {listing.make} {listing.model} {listing.year}
-                  </h3>
-                  <p className="text-sm text-gray-500">Sold {timeAgo(listing.sold_date)}</p>
-                </div>
-                <div className="text-right">
-                  <p className="font-bold text-green-600">{formatNaira(listing.sold_price)}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Recent Contacts */}
-      <div className="bg-white rounded-lg shadow mt-8">
-        <div className="px-6 py-4 border-b">
-          <h2 className="text-lg font-semibold">Recent WhatsApp Contacts</h2>
-        </div>
-        {contacts.length === 0 ? (
-          <div className="p-6 text-center text-gray-500">
-            No contacts yet.
-          </div>
-        ) : (
-          <div className="divide-y">
-            {contacts.slice(0, 5).map(contact => {
-              const isBuyer = contact.buyer_id === dealer.id;
-              return (
-                <div key={contact.id} className="p-4 flex items-center hover:bg-gray-50">
-                  <MessageCircle className="w-5 h-5 text-green-500 mr-3" />
+          {soldListings.length === 0 ? (
+            <div className="p-6 text-center font-bold">
+              No sold cars yet.
+            </div>
+          ) : (
+            <div className="divide-y-2 divide-black">
+              {soldListings.slice(0, 5).map(listing => (
+                <div key={listing.id} className="p-4 flex items-center hover:bg-yellow-100 transition-colors">
+                  <div className="w-16 h-16 bg-gray-200 border-2 border-black mr-4 flex-shrink-0">
+                    {listing.photos?.[0] ? (
+                      <img src={listing.photos[0]} alt="" className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <Car size={24} />
+                      </div>
+                    )}
+                  </div>
                   <div className="flex-1">
-                    <p className="text-sm">
-                      {isBuyer ? 'You contacted' : 'Someone contacted you about'}{' '}
-                      <span className="font-medium">
-                        {contact.listing?.make} {contact.listing?.model}
-                      </span>
-                    </p>
-                    <p className="text-xs text-gray-500">{timeAgo(contact.created_at)}</p>
+                    <h3 className="font-black uppercase">
+                      {listing.make} {listing.model} {listing.year}
+                    </h3>
+                    <p className="text-sm font-bold">Sold {timeAgo(listing.sold_date)}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-black text-green-600">{formatNaira(listing.sold_price)}</p>
                   </div>
                 </div>
-              );
-            })}
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Recent Contacts */}
+        <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mt-8">
+          <div className="border-b-2 border-black px-6 py-4">
+            <h2 className="text-2xl font-black uppercase tracking-tighter">Recent WhatsApp Contacts</h2>
           </div>
-        )}
+          {contacts.length === 0 ? (
+            <div className="p-6 text-center font-bold">
+              No contacts yet.
+            </div>
+          ) : (
+            <div className="divide-y-2 divide-black">
+              {contacts.slice(0, 5).map(contact => {
+                const isBuyer = contact.buyer_id === dealer.id;
+                return (
+                  <div key={contact.id} className="p-4 flex items-center hover:bg-yellow-100 transition-colors">
+                    <MessageCircle size={20} className="mr-3" strokeWidth={2} />
+                    <div className="flex-1">
+                      <p className="font-bold">
+                        {isBuyer ? 'You contacted' : 'Someone contacted you about'}{' '}
+                        <span className="uppercase">
+                          {contact.listing?.make} {contact.listing?.model}
+                        </span>
+                      </p>
+                      <p className="text-xs font-bold">{timeAgo(contact.created_at)}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -55,23 +55,23 @@ const PhotoUploader = ({ dealerId, onUploadComplete, maxPhotos = 20 }) => {
 
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-4 md:grid-cols-6 gap-2">
+      <div className="grid grid-cols-4 md:grid-cols-6 gap-3">
         {photos.map((photo, index) => (
-          <div key={index} className="relative aspect-square rounded-lg overflow-hidden border border-gray-200">
+          <div key={index} className="relative aspect-square border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
             <img src={photo.preview} alt={`Preview ${index}`} className="w-full h-full object-cover" />
             <button
               type="button"
               onClick={() => removePhoto(index)}
-              className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+              className="absolute top-1 right-1 border-2 border-black bg-white text-black hover:bg-black hover:text-white transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] p-1"
             >
-              <X size={14} />
+              <X size={14} strokeWidth={2} />
             </button>
           </div>
         ))}
         {photos.length < maxPhotos && (
-          <label className="aspect-square border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition">
-            <Upload className="w-6 h-6 text-gray-400" />
-            <span className="text-xs text-gray-500 mt-1">Upload</span>
+          <label className="aspect-square border-2 border-black border-dashed bg-white flex flex-col items-center justify-center cursor-pointer hover:bg-yellow-100 transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+            <Upload size={24} strokeWidth={2} className="text-black" />
+            <span className="text-xs font-bold uppercase mt-1">Upload</span>
             <input
               type="file"
               accept="image/*"
@@ -83,8 +83,12 @@ const PhotoUploader = ({ dealerId, onUploadComplete, maxPhotos = 20 }) => {
           </label>
         )}
       </div>
-      {uploading && <div className="text-sm text-blue-600">Uploading...</div>}
-      <p className="text-xs text-gray-500">
+      {uploading && (
+        <div className="text-sm font-bold">
+          Uploading...
+        </div>
+      )}
+      <p className="text-xs font-bold">
         Max {maxPhotos} photos, 500KB each after compression. JPEG, PNG, WEBP.
       </p>
     </div>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { useSold } from '../../hooks/useSold';
 import { whatsappService } from '../../services/whatsappService';
-import { AlertCircle, User, Search, CheckCircle } from 'lucide-react';
+import { AlertCircle, User, Search, CheckCircle, X } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const MarkAsSoldButton = ({ listing }) => {
@@ -14,14 +14,12 @@ const MarkAsSoldButton = ({ listing }) => {
   const [loadingBuyers, setLoadingBuyers] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Hooks before any conditional returns
   useEffect(() => {
     if (showModal) {
       loadPotentialBuyers();
     }
   }, [showModal]);
 
-  // Early returns after all hooks
   if (!user || dealer?.id !== listing.dealer_id) return null;
   if (listing.status !== 'available') return null;
 
@@ -40,7 +38,7 @@ const MarkAsSoldButton = ({ listing }) => {
   const handleMarkSold = async () => {
     try {
       await markAsSold(listing.id, buyer?.id);
-      toast.success('Car marked as sold!');
+      toast.success('REGISTRY UPDATED: Vehicle Sold');
       setShowModal(false);
     } catch (error) {
       toast.error(error.message);
@@ -56,81 +54,90 @@ const MarkAsSoldButton = ({ listing }) => {
     <>
       <button
         onClick={() => setShowModal(true)}
-        className="w-full flex items-center justify-center px-4 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-green-600 hover:bg-green-700"
+        className="w-full flex items-center justify-center gap-2 py-3 bg-emerald-400 text-black border-2 border-black font-black uppercase text-xs hover:bg-emerald-500 transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-1 active:translate-y-1"
       >
-        <CheckCircle className="w-5 h-5 mr-2" />
+        <CheckCircle size={16} strokeWidth={3} />
         Mark as Sold
       </button>
 
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full max-h-[80vh] overflow-y-auto">
-            <h3 className="text-lg font-semibold mb-2">Mark as Sold</h3>
-            <p className="text-sm text-gray-600 mb-4">
-              Select the buyer (optional) so they can rate you. If you don't select, the sale will still be recorded.
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="bg-[#f4f4f2] border-4 border-black p-6 max-w-md w-full shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] max-h-[90vh] overflow-y-auto">
+            
+            <div className="flex justify-between items-start mb-6 border-b-4 border-black pb-4">
+              <h3 className="text-2xl font-black uppercase italic tracking-tighter">Confirm Liquidation</h3>
+              <button onClick={() => setShowModal(false)} className="p-1 border-2 border-black hover:bg-red-500 hover:text-white transition-colors">
+                <X size={20} strokeWidth={3} />
+              </button>
+            </div>
+
+            <p className="text-[10px] font-black uppercase text-slate-600 mb-6 leading-tight">
+              Select the acquiring party to permit rating synchronization. If bypassed, the sale remains anonymous in the registry.
             </p>
 
-            <div className="relative mb-4">
+            <div className="relative mb-6">
               <input
                 type="text"
-                placeholder="Search buyers..."
+                placeholder="SEARCH ACQUIRING PARTIES..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md"
+                className="w-full pl-10 pr-4 py-3 border-4 border-black font-bold uppercase text-xs focus:outline-none focus:bg-yellow-50"
               />
-              <Search size={18} className="absolute left-3 top-2.5 text-gray-400" />
+              <Search size={18} className="absolute left-3 top-3.5 text-black" strokeWidth={3} />
             </div>
 
             {loadingBuyers ? (
-              <div className="text-center py-4">Loading...</div>
+              <div className="text-center py-8 font-black animate-pulse">SCANNING DATABASE...</div>
             ) : (
-              <div className="space-y-2 max-h-60 overflow-y-auto">
+              <div className="space-y-3 max-h-64 overflow-y-auto pr-2 custom-scrollbar">
                 <button
                   onClick={() => setBuyer(null)}
-                  className={`w-full text-left p-3 border rounded-lg hover:bg-gray-50 flex items-center space-x-3 ${
-                    !buyer ? 'bg-blue-50 border-blue-300' : ''
+                  className={`w-full text-left p-4 border-2 border-black flex items-center space-x-4 transition-all ${
+                    !buyer ? 'bg-yellow-400 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]' : 'bg-white hover:bg-slate-100'
                   }`}
                 >
-                  <User size={20} className="text-gray-400" />
+                  <User size={24} strokeWidth={3} />
                   <div>
-                    <p className="font-medium">Skip (no buyer)</p>
-                    <p className="text-sm text-gray-500">Sale will be recorded without a buyer</p>
+                    <p className="font-black uppercase text-xs">Skip / Anonymous</p>
+                    <p className="text-[10px] font-bold opacity-70">RECORD WITHOUT BUYER DATA</p>
                   </div>
                 </button>
+
                 {filteredBuyers.map(b => (
                   <button
                     key={b.id}
                     onClick={() => setBuyer(b)}
-                    className={`w-full text-left p-3 border rounded-lg hover:bg-gray-50 flex items-center space-x-3 ${
-                      buyer?.id === b.id ? 'bg-blue-50 border-blue-300' : ''
+                    className={`w-full text-left p-4 border-2 border-black flex items-center space-x-4 transition-all ${
+                      buyer?.id === b.id ? 'bg-yellow-400 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]' : 'bg-white hover:bg-slate-100'
                     }`}
                   >
-                    <User size={20} className="text-gray-400" />
+                    <User size={24} strokeWidth={3} />
                     <div>
-                      <p className="font-medium">{b.business_name}</p>
-                      <p className="text-sm text-gray-500">{b.phone}</p>
+                      <p className="font-black uppercase text-xs">{b.business_name}</p>
+                      <p className="text-[10px] font-bold opacity-70">{b.phone}</p>
                     </div>
                   </button>
                 ))}
-                {filteredBuyers.length === 0 && (
-                  <p className="text-center text-gray-500 py-2">No potential buyers found</p>
+
+                {filteredBuyers.length === 0 && searchTerm && (
+                  <p className="text-center text-[10px] font-black uppercase py-4 text-red-500">No records match your query</p>
                 )}
               </div>
             )}
 
-            <div className="mt-4 flex space-x-3">
+            <div className="mt-8 grid grid-cols-2 gap-4">
               <button
                 onClick={handleMarkSold}
                 disabled={loading}
-                className="flex-1 bg-green-600 text-white py-2 rounded hover:bg-green-700 disabled:opacity-50"
+                className="bg-black text-white py-4 border-2 border-black font-black uppercase text-xs hover:bg-emerald-500 hover:text-black transition-all disabled:opacity-50"
               >
-                {loading ? 'Processing...' : 'Confirm Sale'}
+                {loading ? 'SYNCING...' : 'Confirm Sale'}
               </button>
               <button
                 onClick={() => setShowModal(false)}
-                className="flex-1 bg-gray-200 text-gray-800 py-2 rounded hover:bg-gray-300"
+                className="bg-white text-black py-4 border-2 border-black font-black uppercase text-xs hover:bg-red-500 hover:text-white transition-all"
               >
-                Cancel
+                Abort
               </button>
             </div>
           </div>

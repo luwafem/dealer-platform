@@ -22,7 +22,7 @@ const SubscriptionPlans = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto px-4 py-8">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto">
       {Object.values(SUBSCRIPTION_PLANS).map((planKey) => {
         const plan = PLAN_DETAILS[planKey];
         const isCurrentPlan = dealer?.subscription_plan === planKey;
@@ -31,37 +31,42 @@ const SubscriptionPlans = () => {
         return (
           <div
             key={planKey}
-            className={`bg-white rounded-lg shadow-lg overflow-hidden border-2 ${
-              isCurrentPlan ? 'border-blue-600' : 'border-transparent'
+            className={`bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] ${
+              isCurrentPlan ? 'relative' : ''
             }`}
           >
+            {isCurrentPlan && (
+              <div className="absolute -top-3 -right-3 bg-black text-white px-3 py-1 text-xs font-black uppercase border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                Current
+              </div>
+            )}
             <div className="p-6">
-              <h3 className="text-xl font-bold text-gray-900">{plan.name}</h3>
-              <div className="mt-2">
+              <h3 className="text-2xl font-black uppercase tracking-tighter mb-2">{plan.name}</h3>
+              <div className="mt-2 border-t-2 border-black pt-2">
                 {plan.price === 0 ? (
-                  <span className="text-3xl font-bold">Free</span>
+                  <span className="text-4xl font-black">Free</span>
                 ) : (
                   <>
-                    <span className="text-3xl font-bold">₦{plan.price.toLocaleString()}</span>
-                    <span className="text-gray-500">/month</span>
+                    <span className="text-4xl font-black">₦{plan.price.toLocaleString()}</span>
+                    <span className="text-sm font-bold uppercase ml-1">/month</span>
                   </>
                 )}
               </div>
               <ul className="mt-4 space-y-2">
                 {plan.features.map((feature, idx) => (
                   <li key={idx} className="flex items-start">
-                    <Check className="w-5 h-5 text-green-500 mr-2 flex-shrink-0" />
-                    <span className="text-sm text-gray-600">{feature}</span>
+                    <Check size={18} className="mr-2 flex-shrink-0" strokeWidth={2} />
+                    <span className="text-sm font-bold">{feature}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
-            <div className="p-6 bg-gray-50">
+            <div className="p-6 border-t-2 border-black bg-gray-100">
               {isCurrentPlan ? (
                 <button
                   disabled
-                  className="w-full px-4 py-2 bg-gray-300 text-gray-700 rounded-md cursor-not-allowed"
+                  className="w-full border-2 border-black bg-gray-300 text-black px-4 py-2 font-black uppercase cursor-not-allowed opacity-50"
                 >
                   Current Plan
                 </button>
@@ -69,17 +74,17 @@ const SubscriptionPlans = () => {
                 <button
                   onClick={() => handleSubscribe(planKey)}
                   disabled={loading}
-                  className={`w-full px-4 py-2 rounded-md ${
+                  className={`w-full border-2 border-black px-4 py-2 font-black uppercase transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] ${
                     isPaid
-                      ? 'bg-blue-600 text-white hover:bg-blue-700'
-                      : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
-                  } disabled:opacity-50`}
+                      ? 'bg-yellow-400 text-black hover:bg-black hover:text-white'
+                      : 'bg-white text-black hover:bg-black hover:text-white'
+                  } disabled:opacity-50 disabled:cursor-not-allowed`}
                 >
-                  {loading ? 'Processing...' : isPaid ? `Subscribe to ${plan.name}` : 'Switch to Free'}
+                  {loading ? 'Processing...' : isPaid ? `Subscribe` : 'Switch to Free'}
                 </button>
               )}
               {!user && isPaid && (
-                <p className="text-xs text-gray-500 text-center mt-2">Please log in to subscribe</p>
+                <p className="text-xs font-bold text-center mt-2">Please log in to subscribe</p>
               )}
             </div>
           </div>
