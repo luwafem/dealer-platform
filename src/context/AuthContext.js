@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { supabase } from '../lib/supabase';
 import toast from 'react-hot-toast';
+import { Check, X, AlertCircle } from 'lucide-react';
 
 const AuthContext = createContext({});
 
@@ -10,6 +11,39 @@ export const useAuth = () => {
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
+};
+
+// Brutalist toast helper
+const showBrutalistToast = (message, type = 'success') => {
+  const icons = {
+    success: <Check size={20} strokeWidth={3} className="text-black" />,
+    error: <X size={20} strokeWidth={3} className="text-black" />,
+    warning: <AlertCircle size={20} strokeWidth={3} className="text-black" />
+  };
+
+  toast.custom(
+    (t) => (
+      <div
+        className={`${
+          t.visible ? 'animate-enter' : 'animate-leave'
+        } border-2 border-black bg-white p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex items-start gap-3 max-w-md w-full`}
+      >
+        <div className={`flex-shrink-0 ${type === 'success' ? 'text-green-600' : type === 'error' ? 'text-red-600' : 'text-yellow-600'}`}>
+          {icons[type]}
+        </div>
+        <div className="flex-1">
+          <p className="font-black uppercase text-sm tracking-tighter">{message}</p>
+        </div>
+        <button onClick={() => toast.dismiss(t.id)} className="flex-shrink-0 border-2 border-black p-1 hover:bg-yellow-400 transition-colors">
+          <X size={14} strokeWidth={3} />
+        </button>
+      </div>
+    ),
+    {
+      duration: 3000,
+      position: 'top-center',
+    }
+  );
 };
 
 export const AuthProvider = ({ children }) => {
@@ -81,7 +115,7 @@ export const AuthProvider = ({ children }) => {
         }
       } catch (error) {
         console.error('Error fetching dealer profile:', error.message);
-        toast.error('Failed to load dealer profile');
+        showBrutalistToast('Failed to load dealer profile', 'error');
         setLoading(false);
         return;
       }
@@ -105,14 +139,14 @@ export const AuthProvider = ({ children }) => {
       if (error) {
         // Check for rate limit error
         if (error.message?.toLowerCase().includes('rate limit') || error.status === 429) {
-          toast.error('Too many sign-up attempts. Please wait a few minutes and try again.');
+          showBrutalistToast('Too many sign-up attempts. Please wait a few minutes and try again.', 'error');
         } else {
-          toast.error(error.message);
+          showBrutalistToast(error.message, 'error');
         }
         throw error;
       }
 
-      toast.success('Registration successful! Please verify your email.');
+      showBrutalistToast('Registration successful! Please verify your email.', 'success');
       return { success: true };
     } catch (error) {
       return { success: false, error: error.message };
@@ -130,10 +164,10 @@ export const AuthProvider = ({ children }) => {
         password,
       });
       if (error) throw error;
-      toast.success('Logged in successfully');
+      showBrutalistToast('Logged in successfully', 'success');
       return { success: true };
     } catch (error) {
-      toast.error(error.message);
+      showBrutalistToast(error.message, 'error');
       return { success: false, error: error.message };
     } finally {
       // Loading will be cleared by fetchDealerProfile after auth change
@@ -145,9 +179,9 @@ export const AuthProvider = ({ children }) => {
       setLoading(true);
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
-      toast.success('Logged out');
+      showBrutalistToast('Logged out', 'success');
     } catch (error) {
-      toast.error(error.message);
+      showBrutalistToast(error.message, 'error');
     } finally {
       setLoading(false); // Sign out clears everything, so we can set loading false
     }

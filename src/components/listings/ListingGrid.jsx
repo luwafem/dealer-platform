@@ -5,7 +5,7 @@ import { SearchX, Loader2 } from 'lucide-react';
 const ListingGrid = ({ listings, loading, emptyMessage = 'No matching registry entries found' }) => {
   if (loading) {
     return (
-      <div className="flex flex-col justify-center items-center py-24 bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+      <div className="flex flex-col justify-center items-center py-24 bg-white border-4 border-black">
         <Loader2 className="animate-spin text-black mb-4" size={48} strokeWidth={3} />
         <span className="text-xs font-black uppercase tracking-[0.3em] animate-pulse">
           Synchronizing Database...
@@ -16,7 +16,7 @@ const ListingGrid = ({ listings, loading, emptyMessage = 'No matching registry e
 
   if (!listings || listings.length === 0) {
     return (
-      <div className="text-center py-20 bg-yellow-400 border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex flex-col items-center">
+      <div className="text-center py-20 bg-yellow-400 border-4 border-black flex flex-col items-center">
         <div className="bg-black p-4 mb-4">
             <SearchX className="text-white" size={32} />
         </div>

@@ -13,15 +13,15 @@ const DashboardPage = () => {
 
   return (
     <div className="min-h-screen bg-[#f4f4f2] text-[#1a1a1a] selection:bg-yellow-300">
-      {/* Header / Tabs */}
-      <div className="border-b-2 border-black bg-white">
+      {/* Header / Tabs - flat, no shadows */}
+      <div className="border-b-2 border-black bg-[#f4f4f2]">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex">
             <button
               onClick={() => setActiveTab('seller')}
-              className={`py-4 px-6 font-black uppercase text-sm tracking-tighter flex items-center border-2 border-black -mb-0.5 ${
+              className={`py-4 px-6 font-black uppercase text-sm tracking-tighter flex items-center border-2 border-black border-b-0 ${
                 activeTab === 'seller'
-                  ? 'bg-black text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] z-10'
+                  ? 'bg-black text-white'
                   : 'bg-white text-black hover:bg-yellow-400 hover:text-black transition-colors'
               }`}
             >
@@ -30,9 +30,9 @@ const DashboardPage = () => {
             </button>
             <button
               onClick={() => setActiveTab('buyer')}
-              className={`py-4 px-6 font-black uppercase text-sm tracking-tighter flex items-center border-2 border-black -mb-0.5 ${
+              className={`py-4 px-6 font-black uppercase text-sm tracking-tighter flex items-center border-2 border-black border-l-0 border-b-0 ${
                 activeTab === 'buyer'
-                  ? 'bg-black text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] z-10'
+                  ? 'bg-black text-white'
                   : 'bg-white text-black hover:bg-yellow-400 hover:text-black transition-colors'
               }`}
             >

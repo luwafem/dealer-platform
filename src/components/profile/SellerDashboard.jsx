@@ -26,7 +26,6 @@ const SellerDashboard = () => {
   const [trustScore, setTrustScore] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Scroll to top on mount
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -49,7 +48,6 @@ const SellerDashboard = () => {
       setSoldListings(sold);
       setContacts(contactsData);
 
-      // Compute trust score
       const score = await ratingService.computeTrustScore(dealer.id);
       setTrustScore(score);
     } catch (error) {
@@ -62,19 +60,16 @@ const SellerDashboard = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-[#f4f4f2] flex justify-center items-center">
-        <div className="border-2 border-black p-8 bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+        <div className="border-2 border-black p-8 bg-white">
           <div className="animate-spin rounded-none h-12 w-12 border-2 border-black border-t-transparent"></div>
         </div>
       </div>
     );
   }
 
-  // Count contacts where dealer is the seller (someone contacted them)
   const contactsAsSeller = contacts.filter(c => c.seller_id === dealer.id).length;
-  // Count contacts where dealer is the buyer (they initiated)
   const contactsAsBuyer = contacts.filter(c => c.buyer_id === dealer.id).length;
 
-  // Get plan details and max listings
   const plan = PLAN_DETAILS[dealer?.subscription_plan || 'basic'];
   const maxListings = plan?.maxListings || 2;
   const listingsUsed = activeListings.length;
@@ -97,14 +92,14 @@ const SellerDashboard = () => {
           <div className="flex gap-3">
             <Link
               to="/rate-transactions"
-              className="border-2 border-black bg-black text-white px-6 py-3 font-black uppercase hover:bg-yellow-400 hover:text-black hover:border-black transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex items-center"
+              className="border-2 border-black bg-black text-white px-6 py-3 font-black uppercase hover:bg-yellow-400 hover:text-black hover:border-black transition-colors flex items-center"
             >
               <Star size={20} className="mr-2" />
               Rate Transactions
             </Link>
             <button
               onClick={() => navigate('/add-listing')}
-              className="border-2 border-black bg-yellow-400 text-black px-6 py-3 font-black uppercase hover:bg-black hover:text-white transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex items-center"
+              className="border-2 border-black bg-yellow-400 text-black px-6 py-3 font-black uppercase hover:bg-black hover:text-white transition-colors flex items-center"
             >
               <PlusCircle size={20} className="mr-2" />
               Add Listing
@@ -113,7 +108,7 @@ const SellerDashboard = () => {
         </div>
 
         {/* Trust Score Card */}
-        <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-6 mb-8">
+        <div className="bg-[#f4f4f2] border-2 border-black p-6 mb-8">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
               <h2 className="text-2xl font-black uppercase tracking-tighter">Trust Score</h2>
@@ -143,28 +138,28 @@ const SellerDashboard = () => {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
-          <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-4 flex justify-between items-center">
+          <div className="bg-[#f4f4f2] border-2 border-black p-4 flex justify-between items-center">
             <div>
               <p className="text-sm font-bold uppercase">Active</p>
               <p className="text-3xl font-black">{listingsUsed}</p>
             </div>
             <Car size={32} strokeWidth={2} />
           </div>
-          <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-4 flex justify-between items-center">
+          <div className="bg-[#f4f4f2] border-2 border-black p-4 flex justify-between items-center">
             <div>
               <p className="text-sm font-bold uppercase">Sold</p>
               <p className="text-3xl font-black">{soldListings.length}</p>
             </div>
             <CheckCircle size={32} strokeWidth={2} />
           </div>
-          <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-4 flex justify-between items-center">
+          <div className="bg-[#f4f4f2] border-2 border-black p-4 flex justify-between items-center">
             <div>
               <p className="text-sm font-bold uppercase">Inquiries</p>
               <p className="text-3xl font-black">{contactsAsSeller}</p>
             </div>
             <MessageCircle size={32} strokeWidth={2} />
           </div>
-          <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-4 flex justify-between items-center">
+          <div className="bg-[#f4f4f2] border-2 border-black p-4 flex justify-between items-center">
             <div>
               <p className="text-sm font-bold uppercase">Views</p>
               <p className="text-3xl font-black">
@@ -173,9 +168,9 @@ const SellerDashboard = () => {
             </div>
             <Eye size={32} strokeWidth={2} />
           </div>
-          <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-4 flex justify-between items-center">
+          <div className="bg-[#f4f4f2] border-2 border-black p-4 flex justify-between items-center">
             <div>
-              <p className="text-sm font-bold uppercase">Used</p>
+              <p className="text-sm font-bold uppercase">Listings</p>
               <p className="text-3xl font-black">
                 {listingsUsed} / {isUnlimited ? '∞' : maxListings}
               </p>
@@ -188,7 +183,7 @@ const SellerDashboard = () => {
         </div>
 
         {/* Active Listings */}
-        <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mt-8">
+        <div className="bg-[#f4f4f2] border-2 border-black mt-8">
           <div className="border-b-2 border-black px-6 py-4 flex justify-between items-center">
             <h2 className="text-2xl font-black uppercase tracking-tighter">Active Listings</h2>
             {activeListings.length > 0 && (
@@ -237,7 +232,7 @@ const SellerDashboard = () => {
         </div>
 
         {/* Sold Listings */}
-        <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mt-8">
+        <div className="bg-[#f4f4f2] border-2 border-black mt-8">
           <div className="border-b-2 border-black px-6 py-4">
             <h2 className="text-2xl font-black uppercase tracking-tighter">Recently Sold</h2>
           </div>
@@ -274,7 +269,7 @@ const SellerDashboard = () => {
         </div>
 
         {/* Recent Contacts */}
-        <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mt-8">
+        <div className="bg-[#f4f4f2] border-2 border-black mt-8">
           <div className="border-b-2 border-black px-6 py-4">
             <h2 className="text-2xl font-black uppercase tracking-tighter">Recent WhatsApp Contacts</h2>
           </div>

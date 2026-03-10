@@ -31,12 +31,12 @@ const SubscriptionPlans = () => {
         return (
           <div
             key={planKey}
-            className={`bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] ${
+            className={`bg-white border-2 border-black ${
               isCurrentPlan ? 'relative' : ''
             }`}
           >
             {isCurrentPlan && (
-              <div className="absolute -top-3 -right-3 bg-black text-white px-3 py-1 text-xs font-black uppercase border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+              <div className="absolute -top-3 -right-3 bg-black text-white px-3 py-1 text-xs font-black uppercase border-2 border-black">
                 Current
               </div>
             )}
@@ -74,7 +74,7 @@ const SubscriptionPlans = () => {
                 <button
                   onClick={() => handleSubscribe(planKey)}
                   disabled={loading}
-                  className={`w-full border-2 border-black px-4 py-2 font-black uppercase transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] ${
+                  className={`w-full border-2 border-black px-4 py-2 font-black uppercase transition-colors ${
                     isPaid
                       ? 'bg-yellow-400 text-black hover:bg-black hover:text-white'
                       : 'bg-white text-black hover:bg-black hover:text-white'

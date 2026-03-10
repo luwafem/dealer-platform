@@ -75,7 +75,8 @@ const BuyerDashboard = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-[#f4f4f2] flex justify-center items-center">
-        <div className="border-2 border-black p-8 bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+        {/* Flat spinner container – no shadow */}
+        <div className="border-2 border-black p-8 bg-white">
           <div className="animate-spin rounded-none h-12 w-12 border-2 border-black border-t-transparent"></div>
         </div>
       </div>
@@ -97,7 +98,7 @@ const BuyerDashboard = () => {
           </div>
           <Link
             to="/rate-transactions"
-            className="border-2 border-black bg-black text-white px-6 py-3 font-black uppercase hover:bg-yellow-400 hover:text-black hover:border-black transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex items-center"
+            className="border-2 border-black bg-black text-white px-6 py-3 font-black uppercase hover:bg-yellow-400 hover:text-black hover:border-black transition-colors flex items-center"
           >
             <Star size={20} className="mr-2" strokeWidth={2} />
             Rate Transactions
@@ -106,7 +107,7 @@ const BuyerDashboard = () => {
 
         {/* DNA Insights Card */}
         {!dnaLoading && (dna || insights?.length > 0) && (
-          <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-6 mb-8">
+          <div className="bg-white border-2 border-black p-6 mb-8">
             <div className="flex items-center gap-2 mb-4">
               <Brain size={24} strokeWidth={2} />
               <h2 className="text-2xl font-black uppercase tracking-tighter">Your Dealer DNA</h2>
@@ -126,7 +127,7 @@ const BuyerDashboard = () => {
                   return (
                     <div
                       key={idx}
-                      className={`p-3 border-2 border-black bg-white cursor-pointer hover:bg-yellow-200 transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]`}
+                      className={`p-3 border-2 border-black bg-white cursor-pointer hover:bg-yellow-200 transition-colors`}
                       onClick={() => insight.action && navigate(insight.action)}
                     >
                       <div className="flex items-start gap-3">
@@ -177,28 +178,28 @@ const BuyerDashboard = () => {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-4 flex justify-between items-center">
+          <div className="bg-[#f4f4f2] border-2 border-black p-4 flex justify-between items-center">
             <div>
               <p className="text-sm font-bold uppercase">Watchlist</p>
               <p className="text-3xl font-black">{watchlist.length}</p>
             </div>
             <Heart size={32} strokeWidth={2} />
           </div>
-          <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-4 flex justify-between items-center">
+          <div className="bg-[#f4f4f2] border-2 border-black p-4 flex justify-between items-center">
             <div>
               <p className="text-sm font-bold uppercase">Saved Searches</p>
               <p className="text-3xl font-black">{savedSearches.length}</p>
             </div>
             <Search size={32} strokeWidth={2} />
           </div>
-          <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-4 flex justify-between items-center">
+          <div className="bg-[#f4f4f2] border-2 border-black p-4 flex justify-between items-center">
             <div>
               <p className="text-sm font-bold uppercase">Inquiries Made</p>
               <p className="text-3xl font-black">{contacts.length}</p>
             </div>
             <MessageCircle size={32} strokeWidth={2} />
           </div>
-          <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-4 flex flex-col">
+          <div className="bg-[#f4f4f2] border-2 border-black p-4 flex flex-col">
             <div className="flex justify-between items-center">
               <p className="text-sm font-bold uppercase">Rating & Trust</p>
               <Link
@@ -219,7 +220,7 @@ const BuyerDashboard = () => {
         </div>
 
         {/* Watchlist */}
-        <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mt-8">
+        <div className="bg-[#f4f4f2] border-2 border-black mt-8">
           <div className="border-b-2 border-black px-6 py-4 flex justify-between items-center">
             <h2 className="text-2xl font-black uppercase tracking-tighter">Your Watchlist</h2>
             {watchlist.length > 0 && (
@@ -268,7 +269,7 @@ const BuyerDashboard = () => {
         </div>
 
         {/* Saved Searches */}
-        <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mt-8">
+        <div className="bg-[#f4f4f2] border-2 border-black mt-8">
           <div className="border-b-2 border-black px-6 py-4 flex justify-between items-center">
             <h2 className="text-2xl font-black uppercase tracking-tighter">Saved Searches</h2>
             {savedSearches.length > 0 && (
@@ -308,7 +309,7 @@ const BuyerDashboard = () => {
         </div>
 
         {/* Recent Contacts */}
-        <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mt-8">
+        <div className="bg-[#f4f4f2] border-2 border-black mt-8">
           <div className="border-b-2 border-black px-6 py-4">
             <h2 className="text-2xl font-black uppercase tracking-tighter">Recent WhatsApp Contacts</h2>
           </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
-import { MapPin, Eye, Camera, ChevronRight, ArrowLeftRight, AlertTriangle } from 'lucide-react';
+import { MapPin, Eye, Camera, ChevronRight, ArrowLeftRight } from 'lucide-react';
 import { formatNaira, timeAgo } from '../../utils/formatters';
 import { useCompare } from '../../context/CompareContext';
 
@@ -41,10 +41,10 @@ const ListingCard = ({ listing }) => {
 
   return (
     <Link to={`/listings/${id}`} className="block group">
-      <div className="bg-white border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] group-hover:shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] group-hover:-translate-x-1 group-hover:-translate-y-1 transition-all duration-200 overflow-hidden relative">
+      <div className="bg-[#f4f4f2] border-2 border-black group-hover:bg-yellow-50 transition-colors duration-200 overflow-hidden relative">
         
         {/* Image Container */}
-        <div className="aspect-w-16 aspect-h-9 bg-slate-200 relative border-b-4 border-black">
+        <div className="aspect-w-16 aspect-h-9 bg-slate-200 relative border-b-2 border-black">
           {mainPhoto ? (
             <img
               src={mainPhoto}
@@ -58,11 +58,10 @@ const ListingCard = ({ listing }) => {
             </div>
           )}
 
-          {/* Distress Badge - Loud & Aggressive */}
+          {/* Distress Badge */}
           {is_distress && (
             <div className="absolute top-0 left-0 z-10">
-              <span className="bg-yellow-400 text-black border-r-4 border-b-4 border-black text-[10px] font-black px-3 py-1 flex items-center gap-1 uppercase italic tracking-tighter">
-                
+              <span className="bg-yellow-400 text-black border-r-2 border-b-2 border-black text-[10px] font-black px-3 py-1 flex items-center gap-1 uppercase italic tracking-tighter">
                 Distress Sale
               </span>
             </div>
@@ -71,7 +70,7 @@ const ListingCard = ({ listing }) => {
           {/* Sold Overlay */}
           {status === 'sold' && (
             <div className="absolute inset-0 bg-red-600/90 flex items-center justify-center z-20">
-              <span className="border-4 border-white text-white px-6 py-2 font-black text-2xl uppercase italic tracking-widest -rotate-12">
+              <span className="border-2 border-white text-white px-6 py-2 font-black text-2xl uppercase italic tracking-widest -rotate-12">
                 Sold Out
               </span>
             </div>
@@ -81,8 +80,8 @@ const ListingCard = ({ listing }) => {
           {status === 'available' && (
             <button
               onClick={handleCompareClick}
-              className={`absolute top-2 right-2 p-2 border-2 border-black transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-1 active:translate-y-1 z-30 ${
-                selected ? 'bg-yellow-400 text-black' : 'bg-white text-black'
+              className={`absolute top-2 right-2 p-2 border-2 border-black transition-colors z-30 ${
+                selected ? 'bg-yellow-400 text-black' : 'bg-[#f4f4f2] text-black hover:bg-yellow-400'
               }`}
               title={selected ? 'Remove from compare' : 'Add to compare'}
             >
@@ -113,7 +112,7 @@ const ListingCard = ({ listing }) => {
             </span>
             {negotiable && (
               <span className="text-[9px] font-black uppercase tracking-widest text-emerald-600">
-                // Price Negotiable
+                Price Negotiable
               </span>
             )}
           </div>

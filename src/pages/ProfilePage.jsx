@@ -134,13 +134,13 @@ const ProfilePage = () => {
         </div>
 
         {/* Profile Card */}
-        <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-          {/* Top bar (replaces blue header) */}
+        <div className="bg-white border-2 border-black">
+          {/* Top bar */}
           <div className="bg-black h-16 relative flex items-center justify-end px-6">
             {!isEditing && (
               <button
                 onClick={() => setIsEditing(true)}
-                className="border-2 border-black bg-white text-black px-4 py-2 font-black uppercase text-sm hover:bg-yellow-400 hover:text-black transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] flex items-center"
+                className="border-2 border-black bg-white text-black px-4 py-2 font-black uppercase text-sm hover:bg-yellow-400 hover:text-black transition-colors flex items-center"
               >
                 <Edit2 size={16} className="mr-2" strokeWidth={2} />
                 Edit Profile
@@ -152,7 +152,7 @@ const ProfilePage = () => {
           <div className="px-6 pb-6">
             <div className="flex justify-center -mt-12">
               <div className="relative">
-                <div className="w-24 h-24 bg-white border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] flex items-center justify-center overflow-hidden">
+                <div className="w-24 h-24 bg-white border-2 border-black flex items-center justify-center overflow-hidden">
                   {avatarSrc ? (
                     <img src={avatarSrc} alt={dealer.business_name} className="w-full h-full object-cover" />
                   ) : (
@@ -164,7 +164,7 @@ const ProfilePage = () => {
                 {isEditing && (
                   <label
                     htmlFor="avatar-upload"
-                    className="absolute bottom-0 right-0 border-2 border-black bg-white text-black p-1 cursor-pointer hover:bg-yellow-400 transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                    className="absolute bottom-0 right-0 border-2 border-black bg-white text-black p-1 cursor-pointer hover:bg-yellow-400 transition-colors"
                   >
                     <Camera size={16} strokeWidth={2} />
                     <input
@@ -309,7 +309,7 @@ const ProfilePage = () => {
                       value={formData.business_name}
                       onChange={handleChange}
                       required
-                      className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
+                      className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 transition-all"
                     />
                   </div>
 
@@ -321,7 +321,7 @@ const ProfilePage = () => {
                       rows="3"
                       value={formData.business_description}
                       onChange={handleChange}
-                      className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
+                      className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 transition-all"
                       placeholder="Tell buyers about your business..."
                     />
                   </div>
@@ -333,7 +333,7 @@ const ProfilePage = () => {
                       name="business_type"
                       value={formData.business_type}
                       onChange={handleChange}
-                      className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
+                      className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 transition-all"
                     >
                       <option value="">Select type</option>
                       <option value="Dealership">Dealership</option>
@@ -354,7 +354,7 @@ const ProfilePage = () => {
                       onChange={handleChange}
                       min="1900"
                       max={new Date().getFullYear()}
-                      className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
+                      className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 transition-all"
                     />
                   </div>
 
@@ -366,7 +366,7 @@ const ProfilePage = () => {
                       value={formData.phone}
                       onChange={handleChange}
                       required
-                      className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
+                      className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 transition-all"
                     />
                   </div>
                   <div>
@@ -376,7 +376,7 @@ const ProfilePage = () => {
                       name="alternate_phone"
                       value={formData.alternate_phone}
                       onChange={handleChange}
-                      className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
+                      className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 transition-all"
                     />
                   </div>
                   <div>
@@ -386,7 +386,7 @@ const ProfilePage = () => {
                       name="location"
                       value={formData.location}
                       onChange={handleChange}
-                      className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
+                      className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 transition-all"
                     />
                   </div>
                   <div>
@@ -396,7 +396,7 @@ const ProfilePage = () => {
                       rows="2"
                       value={formData.address}
                       onChange={handleChange}
-                      className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
+                      className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 transition-all"
                     />
                   </div>
 
@@ -412,7 +412,7 @@ const ProfilePage = () => {
                       value={formData.website}
                       onChange={handleChange}
                       placeholder="https://..."
-                      className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
+                      className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 transition-all"
                     />
                   </div>
                   <div>
@@ -423,7 +423,7 @@ const ProfilePage = () => {
                       value={formData.instagram}
                       onChange={handleChange}
                       placeholder="@username or full URL"
-                      className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
+                      className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 transition-all"
                     />
                   </div>
                   <div>
@@ -434,7 +434,7 @@ const ProfilePage = () => {
                       value={formData.twitter}
                       onChange={handleChange}
                       placeholder="@username or full URL"
-                      className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
+                      className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 transition-all"
                     />
                   </div>
                   <div>
@@ -445,7 +445,7 @@ const ProfilePage = () => {
                       value={formData.facebook}
                       onChange={handleChange}
                       placeholder="username or full URL"
-                      className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
+                      className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 transition-all"
                     />
                   </div>
 
@@ -460,7 +460,7 @@ const ProfilePage = () => {
                       name="bank_name"
                       value={formData.bank_name}
                       onChange={handleChange}
-                      className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
+                      className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 transition-all"
                     />
                   </div>
                   <div>
@@ -470,7 +470,7 @@ const ProfilePage = () => {
                       name="bank_account_name"
                       value={formData.bank_account_name}
                       onChange={handleChange}
-                      className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
+                      className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 transition-all"
                     />
                   </div>
                   <div>
@@ -480,7 +480,7 @@ const ProfilePage = () => {
                       name="bank_account_number"
                       value={formData.bank_account_number}
                       onChange={handleChange}
-                      className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
+                      className="w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 transition-all"
                     />
                   </div>
                 </div>
@@ -489,7 +489,7 @@ const ProfilePage = () => {
                   <button
                     type="submit"
                     disabled={loading || uploadingAvatar}
-                    className="flex-1 border-2 border-black bg-yellow-400 text-black px-4 py-2 font-black uppercase hover:bg-black hover:text-white transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                    className="flex-1 border-2 border-black bg-yellow-400 text-black px-4 py-2 font-black uppercase hover:bg-black hover:text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
                   >
                     <Save size={18} className="mr-2" strokeWidth={2} />
                     {loading ? 'Saving...' : 'Save Changes'}
@@ -497,7 +497,7 @@ const ProfilePage = () => {
                   <button
                     type="button"
                     onClick={handleCancel}
-                    className="flex-1 border-2 border-black bg-white text-black px-4 py-2 font-black uppercase hover:bg-black hover:text-white transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] flex items-center justify-center"
+                    className="flex-1 border-2 border-black bg-white text-black px-4 py-2 font-black uppercase hover:bg-black hover:text-white transition-colors flex items-center justify-center"
                   >
                     <X size={18} className="mr-2" strokeWidth={2} />
                     Cancel

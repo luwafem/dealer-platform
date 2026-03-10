@@ -17,7 +17,7 @@ const SubscriptionCard = () => {
   const isExpiringSoon = expiryDate && expiryDate - new Date() < 5 * 24 * 60 * 60 * 1000; // 5 days
 
   return (
-    <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+    <div className="bg-white border-2 border-black">
       <div className="p-6">
         <h3 className="text-2xl font-black uppercase tracking-tighter mb-4 border-b-2 border-black pb-2">
           Current Subscription
@@ -66,7 +66,7 @@ const SubscriptionCard = () => {
         {isPaid && dealer.subscription_auto_renew && (
           <button
             onClick={cancelAutoRenew}
-            className="mt-4 border-2 border-black bg-white px-4 py-2 font-black uppercase text-sm hover:bg-black hover:text-white transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+            className="mt-4 border-2 border-black bg-white px-4 py-2 font-black uppercase text-sm hover:bg-black hover:text-white transition-colors"
           >
             Cancel auto-renewal
           </button>

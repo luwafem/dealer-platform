@@ -21,7 +21,6 @@ const ListingDetail = () => {
   const [selectedPhoto, setSelectedPhoto] = useState(null);
   const hasIncremented = useRef(false);
 
-  // FIX: Reset scroll position to top whenever the ID changes
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
@@ -94,10 +93,10 @@ const ListingDetail = () => {
     <div className="bg-[#f4f4f2] min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
-        {/* Navigation */}
+        {/* Navigation - border-2 now */}
         <button
           onClick={() => navigate(-1)}
-          className="group mb-8 flex items-center gap-2 bg-white border-4 border-black px-4 py-2 font-black uppercase text-xs shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all"
+          className="group mb-8 flex items-center gap-2 bg-[#f4f4f2] border-2 border-black px-4 py-2 font-black uppercase text-xs hover:bg-yellow-400 transition-colors"
         >
           <ChevronLeft size={18} strokeWidth={3} />
           <span>Return to Registry</span>
@@ -108,13 +107,14 @@ const ListingDetail = () => {
           
           {/* Photos Container */}
           <div className="lg:col-span-2 space-y-4">
-            <div className="bg-white border-4 border-black shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] relative overflow-hidden">
+            {/* Main photo - border-2 now */}
+            <div className="bg-white border-2 border-black relative overflow-hidden">
               {listing.is_distress && (
-                <div className="absolute top-0 left-0 z-10 bg-red-600 text-white px-6 py-2 font-black uppercase italic tracking-tighter border-b-4 border-r-4 border-black animate-pulse">
-                  🚨 Urgent Liquidation
+                <div className="absolute top-0 left-0 z-10 bg-red-600 text-white px-6 py-2 font-black uppercase italic tracking-tighter border-b-2 border-r-2 border-black animate-pulse">
+                  DISTRESS SALE
                 </div>
               )}
-              <div className="aspect-w-16 aspect-h-9 bg-slate-100 min-h-[400px]">
+              <div className="aspect-w-16 aspect-h-9 bg-[#f4f4f2] min-h-[400px]">
                 {mainPhoto ? (
                   <img src={mainPhoto} alt="Vehicle" className="w-full h-full object-contain p-2" />
                 ) : (
@@ -123,15 +123,15 @@ const ListingDetail = () => {
               </div>
             </div>
 
-            {/* Thumbnails */}
+            {/* Thumbnails - border-2 now */}
             {listing.photos?.length > 1 && (
               <div className="grid grid-cols-6 gap-3">
                 {listing.photos.map((photo, index) => (
                   <button
                     key={index}
                     onClick={() => setSelectedPhoto(photo)}
-                    className={`aspect-square border-4 transition-all ${
-                      selectedPhoto === photo ? 'border-yellow-400 scale-95 shadow-none' : 'border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
+                    className={`aspect-square border-2 transition-all ${
+                      selectedPhoto === photo ? 'border-yellow-400' : 'border-black hover:border-yellow-400'
                     }`}
                   >
                     <img src={photo} className="w-full h-full object-cover" alt="" />
@@ -141,9 +141,9 @@ const ListingDetail = () => {
             )}
           </div>
 
-          {/* Sidebar Info */}
+          {/* Sidebar Info - border-2 now */}
           <div className="lg:col-span-1 space-y-6">
-            <div className="bg-white border-4 border-black p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] sticky top-8">
+            <div className="bg-[#f4f4f2] border-2 border-black p-6 sticky top-8">
               <h1 className="text-3xl font-black uppercase italic tracking-tighter leading-none mb-2">
                 {listing.make} {listing.model}
               </h1>
@@ -152,19 +152,20 @@ const ListingDetail = () => {
                 <span className="text-xs font-black uppercase text-slate-400 tracking-widest">{listing.category}</span>
               </div>
 
-              <div className="border-y-4 border-black py-4 my-6">
-                <p className="text-[10px] font-black uppercase text-slate-500 mb-1">Valuation</p>
+              {/* Price section - border-y-2 now */}
+              <div className="border-y-2 border-black py-4 my-6">
+                <p className="text-[10px] font-black uppercase text-slate-500 mb-1">Price</p>
                 <div className="flex items-baseline justify-between">
                   <span className="text-4xl font-black tracking-tighter">{formatNaira(listing.price)}</span>
                   {listing.negotiable && (
-                    <span className="text-[10px] font-black uppercase text-emerald-600 italic">// Negotiable</span>
+                    <span className="text-[10px] font-black uppercase text-emerald-600">Negotiable</span>
                   )}
                 </div>
               </div>
 
-              {/* Dealer Block */}
+              {/* Dealer Block - border-2 already */}
               {listing.dealer && (
-                <div className="mb-6 p-4 border-2 border-black bg-slate-50 relative">
+                <div className="mb-6 p-4 border-2 border-black bg-[#f4f4f2] relative">
                   <div className="absolute -top-3 right-4 bg-yellow-400 border-2 border-black px-2 py-0.5 text-[10px] font-black uppercase">Verified Dealer</div>
                   <p className="font-black uppercase text-sm leading-none">{listing.dealer.business_name}</p>
                   <div className="flex items-center mt-2">
@@ -176,14 +177,14 @@ const ListingDetail = () => {
 
               {/* Location Tag */}
               <div className="flex items-center gap-2 font-black uppercase text-xs mb-8">
-                <MapPin size={16} strokeWidth={3} className="text-red-600" />
+                <MapPin size={16} strokeWidth={3} className="text-black" />
                 {listing.location}
               </div>
 
-              {/* Action Buttons */}
+              {/* Action Buttons - flat */}
               <div className="space-y-4">
                 {!isOwner && listing.status === 'available' && listing.dealer && (
-                  <WhatsAppContact seller={listing.dealer} listing={listing} className="brutalist-btn-primary" />
+                  <WhatsAppContact seller={listing.dealer} listing={listing} className="w-full py-3 bg-black text-white font-black uppercase text-xs hover:bg-yellow-400 hover:text-black transition-colors flex items-center justify-center gap-2" />
                 )}
 
                 {isOwner && (
@@ -202,7 +203,7 @@ const ListingDetail = () => {
                   </div>
                 )}
 
-                <button className="w-full py-3 border-2 border-black font-black uppercase text-xs flex items-center justify-center gap-2 hover:bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-1 active:translate-y-1 transition-all">
+                <button className="w-full py-3 border-2 border-black font-black uppercase text-xs flex items-center justify-center gap-2 hover:bg-yellow-400 transition-colors">
                   <Share2 size={16} strokeWidth={3} /> Share Data
                 </button>
                 
@@ -212,15 +213,15 @@ const ListingDetail = () => {
           </div>
         </div>
 
-        {/* Detailed Specs Section */}
-        <div className="mt-12 bg-white border-4 border-black p-8 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]">
-          <h2 className="text-2xl font-black uppercase italic tracking-tighter mb-8 border-b-4 border-black pb-2 inline-block">Technical Specifications</h2>
+        {/* Detailed Specs Section - border-2 now */}
+        <div className="mt-12 bg-[#f4f4f2] border-2 border-black p-8">
+          <h2 className="text-2xl font-black uppercase italic tracking-tighter mb-8 border-b-2 border-black pb-2 inline-block">Technical Specifications</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
             {/* Column 1: Power */}
             <section className="space-y-6">
-              <h3 className="font-black uppercase text-xs tracking-[0.2em] flex items-center gap-2 text-slate-400">
-                <Cpu size={14} className="text-black" /> Powertrain
+              <h3 className="font-black uppercase text-xs tracking-[0.2em] flex items-center gap-2 text-black">
+                Powertrain
               </h3>
               <div className="space-y-3">
                 <SpecRow label="Engine" value={listing.engine_type} />
@@ -233,8 +234,8 @@ const ListingDetail = () => {
 
             {/* Column 2: Body */}
             <section className="space-y-6">
-              <h3 className="font-black uppercase text-xs tracking-[0.2em] flex items-center gap-2 text-slate-400">
-                <Settings size={14} className="text-black" /> Chassis & Interior
+              <h3 className="font-black uppercase text-xs tracking-[0.2em] flex items-center gap-2 text-black">
+                 Chassis & Interior
               </h3>
               <div className="space-y-3">
                 <SpecRow label="Paintwork" value={listing.paint} />
@@ -246,8 +247,8 @@ const ListingDetail = () => {
 
             {/* Column 3: Features */}
             <section className="space-y-6">
-              <h3 className="font-black uppercase text-xs tracking-[0.2em] flex items-center gap-2 text-slate-400">
-                <Check size={14} className="text-black" /> Equipment Matrix
+              <h3 className="font-black uppercase text-xs tracking-[0.2em] flex items-center gap-2 text-black">
+                options
               </h3>
               <div className="grid grid-cols-1 gap-2">
                 {renderFeature(listing.sunroof, 'Sunroof')}
@@ -259,10 +260,10 @@ const ListingDetail = () => {
             </section>
           </div>
 
-          {/* Dynamic Details (Tokunbo vs Nigerian) */}
-          <div className="mt-12 pt-8 border-t-4 border-black border-dashed">
+          {/* Dynamic Details divider - border-t-2 now */}
+          <div className="mt-12 pt-8 border-t-2 border-black border-dashed">
             <h3 className="font-black uppercase text-sm mb-6 flex items-center gap-2">
-              <AlertCircle size={18} /> Detailed Provenance ({listing.category})
+              Detailed overview ({listing.category})
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               {listing.category === 'tokunbo' ? (
@@ -283,11 +284,11 @@ const ListingDetail = () => {
             </div>
           </div>
 
-          {/* Notes */}
+          {/* Notes - unchanged */}
           {listing.seller_notes && (
             <div className="mt-12 bg-black p-6">
-              <h3 className="text-white font-black uppercase text-[10px] tracking-[0.3em] mb-3 opacity-50">Authenticated Seller Notes</h3>
-              <p className="text-yellow-400 font-bold italic text-lg leading-relaxed">"{listing.seller_notes}"</p>
+              <h3 className="text-white font-black uppercase text-[10px] tracking-[0.3em] mb-3 opacity-50">Extra Information</h3>
+              <p className="text-white font-bold italic text-lg leading-relaxed">{listing.seller_notes}</p>
             </div>
           )}
         </div>

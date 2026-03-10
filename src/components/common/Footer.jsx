@@ -4,13 +4,13 @@ import { Car, ArrowUpRight, Mail, Phone, Globe } from 'lucide-react';
 
 const Footer = () => {
   return (
-    <footer className="bg-white border-t-4 border-black mt-auto">
+    <footer className="bg-[#f4f4f2] border-t-4 border-black mt-auto">
       {/* Visual Accent Bar */}
       <div className="bg-yellow-400 border-b-2 border-black py-2 overflow-hidden">
         <div className="flex whitespace-nowrap animate-marquee-fast">
           {[1, 2, 3, 4, 5, 6].map((i) => (
             <span key={i} className="text-[10px] font-black uppercase tracking-[0.3em] mx-10 text-black">
-              Verified Dealer Network • B2B Only • Lagos • Abuja • Port Harcourt •
+              Dealer to Dealer Network • B2B Only • Lagos • Abuja • Port Harcourt • ibadan • benin • across nigeria
             </span>
           ))}
         </div>

@@ -98,7 +98,8 @@ const RateTransactionPage = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-[#f4f4f2] flex justify-center items-center">
-        <div className="border-2 border-black p-8 bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+        {/* Flat spinner – no shadow */}
+        <div className="border-2 border-black p-8 bg-white">
           <div className="animate-spin rounded-none h-12 w-12 border-2 border-black border-t-transparent"></div>
         </div>
       </div>
@@ -119,13 +120,13 @@ const RateTransactionPage = () => {
         </div>
 
         {transactions.length === 0 ? (
-          <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-8 text-center">
+          <div className="bg-white border-2 border-black p-8 text-center">
             <p className="font-bold text-lg">No pending transactions to rate.</p>
           </div>
         ) : (
           <div className="space-y-4">
             {transactions.map(t => (
-              <div key={t.id} className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-4">
+              <div key={t.id} className="bg-white border-2 border-black p-4">
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                   <div className="flex-1">
                     <p className="font-black uppercase text-lg">
@@ -160,12 +161,12 @@ const RateTransactionPage = () => {
                   placeholder="Write a review (optional)"
                   value={ratings[t.id]?.review || ''}
                   onChange={(e) => handleReviewChange(t.id, e.target.value)}
-                  className="mt-3 w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
+                  className="mt-3 w-full border-2 border-black p-3 font-medium bg-white focus:outline-none focus:border-yellow-400 transition-all"
                   rows="2"
                 />
                 <button
                   onClick={() => handleSubmit(t)}
-                  className="mt-2 border-2 border-black bg-yellow-400 text-black px-6 py-2 font-black uppercase hover:bg-black hover:text-white transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] flex items-center"
+                  className="mt-2 border-2 border-black bg-yellow-400 text-black px-6 py-2 font-black uppercase hover:bg-black hover:text-white transition-colors flex items-center"
                 >
                   <Send size={16} className="mr-2" strokeWidth={2} />
                   Submit Rating

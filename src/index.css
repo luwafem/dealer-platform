@@ -12,3 +12,25 @@
 .react-select-container .react-select__control--is-focused {
   @apply border-blue-500 ring-1 ring-blue-500;
 }
+
+@keyframes enter {
+  from { transform: translateY(-100%) scale(0.9); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+@keyframes leave {
+  from { transform: translateY(0) scale(1); opacity: 1; }
+  to { transform: translateY(-100%) scale(0.9); opacity: 0; }
+}
+.animate-enter { animation: enter 0.2s ease-out; }
+.animate-leave { animation: leave 0.15s ease-in forwards; }
+
+@keyframes enter {
+  from { transform: translateY(-100%) scale(0.9); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+@keyframes leave {
+  from { transform: translateY(0) scale(1); opacity: 1; }
+  to { transform: translateY(-100%) scale(0.9); opacity: 0; }
+}
+.animate-enter { animation: enter 0.2s ease-out; }
+.animate-leave { animation: leave 0.15s ease-in forwards; }

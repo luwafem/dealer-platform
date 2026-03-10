@@ -58,7 +58,7 @@ const AdvancedFilters = ({ isOpen, onClose }) => {
     setLocalFilters(resetFilters);
   };
 
-  // Neo-Brutalist Select Styles
+  // Neo-Brutalist Select Styles (unchanged, fits aesthetic)
   const selectStyles = {
     control: (base) => ({
       ...base,
@@ -81,17 +81,17 @@ const AdvancedFilters = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden flex justify-end">
+    <div className="fixed inset-0 z-50 overflow-hidden flex justify-end selection:bg-yellow-300">
       {/* Dimmed Overlay */}
       <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" onClick={onClose} />
       
-      {/* Panel */}
-      <div className="relative h-full w-full max-w-md bg-[#f4f4f2] border-l-4 border-black shadow-[-8px_0px_0px_0px_rgba(0,0,0,1)] flex flex-col">
+      {/* Panel - flat, no shadow */}
+      <div className="relative h-full w-full max-w-md bg-[#f4f4f2] border-l-2 border-black flex flex-col">
         
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b-4 border-black bg-white">
-          <h2 className="text-xl font-black uppercase tracking-tighter italic">Advanced Filters</h2>
-          <button onClick={onClose} className="p-2 border-2 border-black hover:bg-yellow-400 transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:shadow-none">
+        <div className="flex items-center justify-between p-6 border-b-2 border-black bg-[#f4f4f2]">
+          <h2 className="text-xl font-black uppercase tracking-tighter">Advanced Filters</h2>
+          <button onClick={onClose} className="p-2 border-2 border-black hover:bg-yellow-400 transition-colors">
             <X size={20} strokeWidth={3} />
           </button>
         </div>
@@ -192,16 +192,20 @@ const AdvancedFilters = ({ isOpen, onClose }) => {
                 </select>
               </InputGroup>
 
-              {/* Distress Only Checkbox */}
+              {/* Distress Only Checkbox - updated to black/yellow */}
               <div 
-                className={`flex items-center p-3 border-2 border-black cursor-pointer transition-colors ${localFilters.distressOnly ? 'bg-red-500 text-white' : 'bg-white'}`}
+                className={`flex items-center p-3 border-2 border-black cursor-pointer transition-colors ${
+                  localFilters.distressOnly ? 'bg-black text-white' : 'bg-white'
+                }`}
                 onClick={() => handleCheckboxChange('distressOnly', !localFilters.distressOnly)}
               >
-                <div className={`w-5 h-5 border-2 border-black mr-3 flex items-center justify-center bg-white`}>
-                    {localFilters.distressOnly && <Check size={14} className="text-black" strokeWidth={4} />}
+                <div className={`w-5 h-5 border-2 border-black mr-3 flex items-center justify-center ${
+                  localFilters.distressOnly ? 'bg-black' : 'bg-white'
+                }`}>
+                  {localFilters.distressOnly && <Check size={14} className="text-yellow-400" strokeWidth={4} />}
                 </div>
                 <label className="text-xs font-black uppercase tracking-tight cursor-pointer">
-                  🚨 Distress sales only (urgent)
+                  Distress sales (urgent)
                 </label>
               </div>
             </div>
@@ -210,7 +214,7 @@ const AdvancedFilters = ({ isOpen, onClose }) => {
           {/* Deal Breakers */}
           <FilterSection title="Exclusion List">
             <div className="pt-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1 block">Deal Breakers (Exclude)</label>
+                <label className="text-[10px] font-bold uppercase tracking-wider text-gray-700 mb-1 block">Deal Breakers (Exclude)</label>
                 <Select
                   isMulti
                   styles={selectStyles}
@@ -225,7 +229,7 @@ const AdvancedFilters = ({ isOpen, onClose }) => {
           {/* Must-Haves */}
           <FilterSection title="Requirements">
             <div className="pt-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1 block">Must-Haves (Require)</label>
+                <label className="text-[10px] font-bold uppercase tracking-wider text-gray-700 mb-1 block">Must-Haves (Require)</label>
                 <Select
                   isMulti
                   styles={selectStyles}
@@ -315,17 +319,17 @@ const AdvancedFilters = ({ isOpen, onClose }) => {
           </FilterSection>
         </div>
 
-        {/* Footer */}
-        <div className="absolute bottom-0 left-0 right-0 border-t-4 border-black bg-white p-6 flex space-x-4">
+        {/* Footer - flat buttons */}
+        <div className="absolute bottom-0 left-0 right-0 border-t-2 border-black bg-[#f4f4f2] p-6 flex space-x-4">
           <button
             onClick={handleReset}
-            className="flex-1 px-4 py-3 border-2 border-black font-black uppercase text-xs flex items-center justify-center gap-2 hover:bg-slate-100 transition-colors"
+            className="flex-1 px-4 py-3 border-2 border-black font-black uppercase text-xs flex items-center justify-center gap-2 hover:bg-gray-200 transition-colors"
           >
             <RotateCcw size={14} /> Reset
           </button>
           <button
             onClick={handleApply}
-            className="flex-1 px-4 py-3 bg-black text-white font-black uppercase text-xs shadow-[4px_4px_0px_0px_rgba(250,204,21,1)] hover:bg-yellow-400 hover:text-black transition-all"
+            className="flex-1 px-4 py-3 bg-black text-white font-black uppercase text-xs hover:bg-yellow-400 hover:text-black transition-colors"
           >
             Apply Filters
           </button>
@@ -341,6 +345,7 @@ const AdvancedFilters = ({ isOpen, onClose }) => {
           text-transform: uppercase;
           font-size: 12px;
           outline: none;
+          background: white;
         }
         .brutalist-input:focus {
           background-color: #facc15;
@@ -363,7 +368,7 @@ const AdvancedFilters = ({ isOpen, onClose }) => {
 
 const InputGroup = ({ label, children }) => (
     <div className="flex flex-col mb-2">
-      <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1">{label}</label>
+      <label className="text-[10px] font-bold uppercase tracking-wider text-gray-700 mb-1">{label}</label>
       {children}
     </div>
 );
