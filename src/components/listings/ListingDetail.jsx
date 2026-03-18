@@ -62,6 +62,41 @@ const ListingDetail = () => {
     }
   };
 
+  const handleShare = async () => {
+    const shareUrl = window.location.href;
+    const shareTitle = `${listing.make} ${listing.model} ${listing.year} on AutoDealer`;
+    const shareText = `Check out this ${listing.make} ${listing.model}`;
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: shareTitle,
+          text: shareText,
+          url: shareUrl,
+        });
+      } catch (err) {
+        // User cancelled share
+        if (err.name !== 'AbortError') {
+          // Fallback to clipboard
+          try {
+            await navigator.clipboard.writeText(shareUrl);
+            toast.success('Link copied to clipboard');
+          } catch (clipErr) {
+            toast.error('Failed to copy link');
+          }
+        }
+      }
+    } else {
+      // Fallback: copy to clipboard
+      try {
+        await navigator.clipboard.writeText(shareUrl);
+        toast.success('Link copied to clipboard');
+      } catch (err) {
+        toast.error('Failed to copy link');
+      }
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex flex-col justify-center items-center min-h-screen bg-[#f4f4f2]">
@@ -93,7 +128,7 @@ const ListingDetail = () => {
     <div className="bg-[#f4f4f2] min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
-        {/* Navigation - border-2 now */}
+        {/* Navigation */}
         <button
           onClick={() => navigate(-1)}
           className="group mb-8 flex items-center gap-2 bg-[#f4f4f2] border-2 border-black px-4 py-2 font-black uppercase text-xs hover:bg-yellow-400 transition-colors"
@@ -107,7 +142,7 @@ const ListingDetail = () => {
           
           {/* Photos Container */}
           <div className="lg:col-span-2 space-y-4">
-            {/* Main photo - border-2 now */}
+            {/* Main photo */}
             <div className="bg-white border-2 border-black relative overflow-hidden">
               {listing.is_distress && (
                 <div className="absolute top-0 left-0 z-10 bg-red-600 text-white px-6 py-2 font-black uppercase italic tracking-tighter border-b-2 border-r-2 border-black animate-pulse">
@@ -123,7 +158,7 @@ const ListingDetail = () => {
               </div>
             </div>
 
-            {/* Thumbnails - border-2 now */}
+            {/* Thumbnails */}
             {listing.photos?.length > 1 && (
               <div className="grid grid-cols-6 gap-3">
                 {listing.photos.map((photo, index) => (
@@ -141,7 +176,7 @@ const ListingDetail = () => {
             )}
           </div>
 
-          {/* Sidebar Info - border-2 now */}
+          {/* Sidebar Info */}
           <div className="lg:col-span-1 space-y-6">
             <div className="bg-[#f4f4f2] border-2 border-black p-6 sticky top-8">
               <h1 className="text-3xl font-black uppercase italic tracking-tighter leading-none mb-2">
@@ -152,7 +187,7 @@ const ListingDetail = () => {
                 <span className="text-xs font-black uppercase text-slate-400 tracking-widest">{listing.category}</span>
               </div>
 
-              {/* Price section - border-y-2 now */}
+              {/* Price section */}
               <div className="border-y-2 border-black py-4 my-6">
                 <p className="text-[10px] font-black uppercase text-slate-500 mb-1">Price</p>
                 <div className="flex items-baseline justify-between">
@@ -163,7 +198,7 @@ const ListingDetail = () => {
                 </div>
               </div>
 
-              {/* Dealer Block - border-2 already */}
+              {/* Dealer Block */}
               {listing.dealer && (
                 <div className="mb-6 p-4 border-2 border-black bg-[#f4f4f2] relative">
                   <div className="absolute -top-3 right-4 bg-yellow-400 border-2 border-black px-2 py-0.5 text-[10px] font-black uppercase">Verified Dealer</div>
@@ -181,7 +216,7 @@ const ListingDetail = () => {
                 {listing.location}
               </div>
 
-              {/* Action Buttons - flat */}
+              {/* Action Buttons */}
               <div className="space-y-4">
                 {!isOwner && listing.status === 'available' && listing.dealer && (
                   <WhatsAppContact seller={listing.dealer} listing={listing} className="w-full py-3 bg-black text-white font-black uppercase text-xs hover:bg-yellow-400 hover:text-black transition-colors flex items-center justify-center gap-2" />
@@ -203,7 +238,11 @@ const ListingDetail = () => {
                   </div>
                 )}
 
-                <button className="w-full py-3 border-2 border-black font-black uppercase text-xs flex items-center justify-center gap-2 hover:bg-yellow-400 transition-colors">
+                {/* Share button - now functional */}
+                <button
+                  onClick={handleShare}
+                  className="w-full py-3 border-2 border-black font-black uppercase text-xs flex items-center justify-center gap-2 hover:bg-yellow-400 transition-colors"
+                >
                   <Share2 size={16} strokeWidth={3} /> Share Data
                 </button>
                 
@@ -213,7 +252,7 @@ const ListingDetail = () => {
           </div>
         </div>
 
-        {/* Detailed Specs Section - border-2 now */}
+        {/* Detailed Specs Section */}
         <div className="mt-12 bg-[#f4f4f2] border-2 border-black p-8">
           <h2 className="text-2xl font-black uppercase italic tracking-tighter mb-8 border-b-2 border-black pb-2 inline-block">Technical Specifications</h2>
 
@@ -260,7 +299,7 @@ const ListingDetail = () => {
             </section>
           </div>
 
-          {/* Dynamic Details divider - border-t-2 now */}
+          {/* Dynamic Details divider */}
           <div className="mt-12 pt-8 border-t-2 border-black border-dashed">
             <h3 className="font-black uppercase text-sm mb-6 flex items-center gap-2">
               Detailed overview ({listing.category})
@@ -284,7 +323,7 @@ const ListingDetail = () => {
             </div>
           </div>
 
-          {/* Notes - unchanged */}
+          {/* Notes */}
           {listing.seller_notes && (
             <div className="mt-12 bg-black p-6">
               <h3 className="text-white font-black uppercase text-[10px] tracking-[0.3em] mb-3 opacity-50">Extra Information</h3>

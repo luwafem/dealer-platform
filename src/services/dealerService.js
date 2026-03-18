@@ -38,4 +38,18 @@ export const dealerService = {
     if (error) throw error;
     return data; // may be null
   },
+
+  // Search dealers by name, phone, or email (for admin use)
+  async searchDealers(query) {
+    if (!query || query.trim() === '') return [];
+    
+    const { data, error } = await supabase
+      .from('dealers')
+      .select('id, business_name, phone, email, subscription_plan, subscription_expiry')
+      .or(`business_name.ilike.%${query}%,phone.ilike.%${query}%,email.ilike.%${query}%`)
+      .limit(10);
+    
+    if (error) throw error;
+    return data;
+  },
 };

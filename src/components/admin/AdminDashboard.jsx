@@ -6,6 +6,7 @@ import { Users, Car, TrendingUp, AlertTriangle, CheckCircle } from 'lucide-react
 import { formatNaira } from '../../utils/formatters';
 import FlaggedListings from './FlaggedListings';
 import VerificationRequests from './VerificationRequests';
+import AdminGiftSubscription from './AdminGiftSubscription'; // 👈 new import
 
 const AdminDashboard = () => {
   const [stats, setStats] = useState({
@@ -148,6 +149,11 @@ const AdminDashboard = () => {
         {/* Verification Requests */}
         <div className="mt-8">
           <VerificationRequests />
+        </div>
+
+        {/* Gift Subscription – new section */}
+        <div className="mt-8">
+          <AdminGiftSubscription />
         </div>
       </div>
     </div>

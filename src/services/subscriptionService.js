@@ -1,5 +1,5 @@
 import { supabase } from '../lib/supabase';
-import { PAYSTACK_PLANS } from '../utils/constants';
+import { PAYSTACK_PLANS, PLAN_DETAILS } from '../utils/constants'; // add PLAN_DETAILS for prices
 
 export const subscriptionService = {
   // Get Paystack plan code for a given plan
@@ -11,7 +11,8 @@ export const subscriptionService = {
 
   // Create a subscription record after Paystack success
   async createSubscriptionFromPayment(userId, plan, paymentDetails, subscriptionCode) {
-    const planPrices = { pro: 10000, enterprise: 25000 };
+    // Use plan prices from constants
+    const planPrices = { pro: PLAN_DETAILS.pro.price, enterprise: PLAN_DETAILS.enterprise.price };
     const amount = planPrices[plan] || 0;
     const expiry = new Date();
     expiry.setMonth(expiry.getMonth() + 1);
@@ -47,6 +48,57 @@ export const subscriptionService = {
       .eq('id', userId);
 
     return data;
+  },
+
+  // Admin grant a subscription to a dealer (free)
+  async adminGrantSubscription(dealerId, plan, durationMonths = 1) {
+    const planPrices = { pro: PLAN_DETAILS.pro.price, enterprise: PLAN_DETAILS.enterprise.price };
+    const amount = planPrices[plan] || 0;
+    const expiry = new Date();
+    expiry.setMonth(expiry.getMonth() + durationMonths);
+
+    // Insert subscription record
+    const { data: sub, error: subError } = await supabase
+      .from('subscriptions')
+      .insert({
+        dealer_id: dealerId,
+        plan,
+        amount,
+        end_date: expiry,
+        status: 'active',
+        payment_reference: `gift_${Date.now()}`,
+        provider_subscription_id: null,
+        provider_plan_code: null,
+        auto_renew: false, // gifted subscriptions don't auto-renew
+      })
+      .select()
+      .single();
+
+    if (subError) throw subError;
+
+    // Update dealer
+    const { error: updateError } = await supabase
+      .from('dealers')
+      .update({
+        subscription_plan: plan,
+        subscription_expiry: expiry,
+        subscription_auto_renew: false,
+      })
+      .eq('id', dealerId);
+
+    if (updateError) throw updateError;
+
+    // Create notification for dealer
+    await supabase
+      .from('notifications')
+      .insert({
+        dealer_id: dealerId,
+        type: 'gift',
+        title: '🎁 You received a gifted subscription!',
+        message: `You have been gifted a ${plan} plan for ${durationMonths} month(s). Enjoy!`,
+      });
+
+    return sub;
   },
 
   // Cancel auto-renewal (update dealer and subscription)
